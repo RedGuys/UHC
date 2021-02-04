@@ -10,11 +10,13 @@ import ru.redguy.redevent.RedEvent;
 public class HooksEvents implements Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     public void onDeath(EntityDamageEvent event) {
-        if(event.getEntity() instanceof Player) {
-            Player player = (Player) event.getEntity();
-            if (RedEvent.getGame().isPlayerInGame(player)) {
-                if((player.getHealth()-event.getDamage()) <= 0) {
-                    HooksActions.OnDeath(player);
+        if(!event.isCancelled()) {
+            if (event.getEntity() instanceof Player) {
+                Player player = (Player) event.getEntity();
+                if (RedEvent.getGame().isPlayerInGame(player)) {
+                    if ((player.getHealth() - event.getDamage()) <= 0) {
+                        HooksActions.OnDeath(player);
+                    }
                 }
             }
         }
