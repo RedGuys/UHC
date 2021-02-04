@@ -1,0 +1,15 @@
+name: RedEvent
+version: @version@
+main: ru.redguy.redevent.RedEvent
+prefix: RUHC
+load: STARTUP
+authors: [ RedGuy ]
+description: RedGuy's UHC plugin
+website: https://redguy.ru
+commands:
+  event:
+    usage: /event
+    aliases:
+      - e
+      - ev
+    description: Events command

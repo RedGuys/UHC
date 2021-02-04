@@ -1,0 +1,5 @@
+discord:
+  hooks:
+redguy:
+  useapi: false
+  token: ""
