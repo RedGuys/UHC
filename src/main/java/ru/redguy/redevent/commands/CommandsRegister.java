@@ -1,11 +1,12 @@
 package ru.redguy.redevent.commands;
 
+import org.bukkit.command.PluginCommand;
 import ru.redguy.redevent.RedEvent;
-
-import java.util.Objects;
 
 public class CommandsRegister {
     public static void register() {
-        Objects.requireNonNull(RedEvent.INSTANCE.getServer().getPluginCommand("event")).setExecutor(new Event());
+        PluginCommand command = RedEvent.INSTANCE.getServer().getPluginCommand("event");
+        command.setExecutor(new Event());
+        command.setTabCompleter(new AutoComplete());
     }
 }

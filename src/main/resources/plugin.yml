@@ -8,7 +8,7 @@ description: RedGuy's UHC plugin
 website: https://redguy.ru
 commands:
   event:
-    usage: /event
+    usage: /event [help]
     aliases:
       - e
       - ev
