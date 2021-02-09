@@ -9,7 +9,11 @@ public class Start implements SubCommand {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(RedEvent.getGame().gameState == GameState.wait) {
-            RedEvent.getGame().start();
+            if(RedEvent.getGame().getPlayers().size() > 1) {
+                RedEvent.getGame().start();
+            } else {
+                sender.sendMessage("Недостаточно игроков");
+            }
         } else {
             sender.sendMessage("Игра уже началась!");
         }

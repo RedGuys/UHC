@@ -16,6 +16,7 @@ public class AutoComplete implements TabCompleter {
             List<String> complete = new ArrayList<>();
             if(args.length == 1) {
                 complete.add("help");
+                complete.add("add");
                 complete.add("start");
             } else {
                 switch (args[0]) {
