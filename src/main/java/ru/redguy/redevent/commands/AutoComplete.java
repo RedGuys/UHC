@@ -3,6 +3,7 @@ package ru.redguy.redevent.commands;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
+import ru.redguy.redevent.events.Events;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,8 +19,8 @@ public class AutoComplete implements TabCompleter {
                 complete.add("start");
             } else {
                 switch (args[0]) {
-                    case "start":
-                        complete.add("evest");
+                    case "add":
+                        complete.addAll(Events.getMap().keySet());
                         break;
                 }
             }

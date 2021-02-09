@@ -6,7 +6,6 @@ import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 public class Event implements CommandExecutor {
 
@@ -22,6 +21,10 @@ public class Event implements CommandExecutor {
         switch (subcommand) {
             case "help":
                 return new Help().onCommand(sender,command,label,args);
+            case "add":
+                return new Add().onCommand(sender,command,label,args);
+            case "start":
+                return new Start().onCommand(sender, command, label, args);
         }
         return true;
     }

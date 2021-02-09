@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 public class Help implements SubCommand {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        sender.sendMessage("/event [help]");
+        sender.sendMessage("/event [help/start/add]");
         return true;
     }
 }
