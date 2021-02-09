@@ -18,7 +18,7 @@ public class TextUtils {
     public static String parsePlaceholders(String message, Player player) {
         message = message.replaceAll(
                 "\\$gamestate\\$",
-                Messages.getGameStateStringByState(RedEvent.INSTANCE.activeGame.gameState
+                Messages.getGameStateStringByState(RedEvent.getGame().gameState
                 ));
         return message;
     }

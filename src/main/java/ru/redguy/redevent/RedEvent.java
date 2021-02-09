@@ -9,7 +9,7 @@ import ru.redguy.redguyapi.RedGuyApi;
 public final class RedEvent extends JavaPlugin {
 
     public static RedEvent INSTANCE;
-    public Game activeGame;
+    public Game game;
     RedGuyApi api;
 
     @Override
@@ -25,6 +25,8 @@ public final class RedEvent extends JavaPlugin {
         }
         CommandsRegister.register();
         Bukkit.getPluginManager().registerEvents(new HooksEvents(),this);
+
+        game = new Game();
     }
 
     @Override
@@ -33,6 +35,6 @@ public final class RedEvent extends JavaPlugin {
     }
 
     public static Game getGame() {
-        return INSTANCE.activeGame;
+        return INSTANCE.game;
     }
 }
