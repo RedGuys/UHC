@@ -104,7 +104,9 @@ public class InventoryChangeEvent implements Event {
             }
             Collections.shuffle(inventories);
             for (int i = 0; i < players.size(); i++) {
-                players.get(i).getInventory().addItem(inventories.get(i));
+                if(inventories.get(i).length > 0) {
+                    players.get(i).getInventory().addItem(inventories.get(i));
+                }
             }
             ChatUtils.sendToAll("&cОбмен инвентарями!");
         }
