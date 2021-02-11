@@ -4,14 +4,14 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
+import ru.redguy.redevent.RedEvent;
 import ru.redguy.redevent.utils.callbacks.PlayerCallback;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class PlayersUtils {
     public static void setGameModeToAll(GameMode gameMode) {
@@ -55,10 +55,8 @@ public class PlayersUtils {
     }
 
     public static void forAllAlivePlayers(PlayerCallback worker) {
-        for (Player onlinePlayer : Bukkit.getServer().getOnlinePlayers()) {
-            if(onlinePlayer.getGameMode().equals(GameMode.SURVIVAL)) {
-                worker.work(onlinePlayer);
-            }
+        for (Player player : RedEvent.getGame().getPlayers()) {
+            worker.work(player);
         }
     }
 
@@ -79,22 +77,12 @@ public class PlayersUtils {
         });
     }
 
-    public static ArrayList<Player> getAllAlivePlayers() {
-        ArrayList<Player> players = new ArrayList<>();
-        for (Player onlinePlayer : Bukkit.getServer().getOnlinePlayers()) {
-            if(onlinePlayer.getGameMode().equals(GameMode.SURVIVAL)) {
-                players.add(onlinePlayer);
-            }
-        }
-        return players;
-    }
-
     public static ArrayList<Player> getAllPlayers() {
         return new ArrayList<>(Bukkit.getServer().getOnlinePlayers());
     }
 
     public static Player getRandomAlivePlayer() {
-        ArrayList<Player> players = getAllAlivePlayers();
+        List<Player> players = RedEvent.getGame().getPlayers();
         Collections.shuffle(players);
         return players.get(0);
     }
