@@ -6,7 +6,9 @@ import ru.redguy.redevent.utils.discord.Hook;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Config {
     public static List<Hook> hooks;
@@ -15,14 +17,21 @@ public class Config {
 
     public static void Load() {
         FileConfiguration configuration = RedEvent.INSTANCE.getConfig();
-        hooks = (List<Hook>) configuration.getList("discord.hooks",new ArrayList<Hook>());
+        hooks = new ArrayList<>();
+        for (Map<?, ?> map : configuration.getMapList("discord.hooks")) {
+            hooks.add(new Hook((Map<String, Object>) map));
+        }
         useRedGuyApi = configuration.getBoolean("redguy.useapi",false);
         token = configuration.getString("redguy.token","");
     }
 
     public static void Save() {
         FileConfiguration configuration = RedEvent.INSTANCE.getConfig();
-        configuration.set("discord.hooks",hooks);
+        List<Map<String, Object>> list = new ArrayList<>();
+        for (Hook hook : hooks) {
+            list.add(hook.toMap());
+        }
+        configuration.set("discord.hooks",list);
         configuration.set("redguy.useapi",useRedGuyApi);
         configuration.set("redguy.token",token);
         try {

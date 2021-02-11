@@ -16,6 +16,7 @@ public class HooksActions {
         embed.appendField(new Field()
                 .setName("Убийств")
                 .setValue(String.valueOf(RedEvent.getGame().getPlayerKills(player))));
+        System.out.println(Config.hooks);
         for (Hook hook : Config.hooks) {
             if(hook.notifyDeath) {
                 try {
