@@ -10,6 +10,7 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import ru.redguy.redevent.events.Event;
+import ru.redguy.redevent.utils.ListUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,7 +53,9 @@ public class Game implements Listener {
 
     public void addScenarios(Event event) {
         if(gameState == GameState.wait) {
-            scenarios.add(event);
+            if(!ListUtils.isScenariosAdded(scenarios,event)) {
+                scenarios.add(event);
+            }
         }
     }
 
