@@ -32,8 +32,9 @@ repositories {
 }
 
 dependencies {
+    compile 'ru.redguy:redguyapi:1.0.6'
+    compile 'ru.redguy.rednetworker.clients.http:apachefluentapi:1.0.6'
     compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
-    compile 'ru.redguy:redguyapi:1.0.2'
 }
 
 processResources {

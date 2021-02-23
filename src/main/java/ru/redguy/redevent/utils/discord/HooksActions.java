@@ -8,6 +8,7 @@ import ru.redguy.rednetworker.clients.http.HttpMethod;
 import ru.redguy.rednetworker.clients.http.exceptions.HttpProtocolException;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 public class HooksActions {
     public static void OnDeath(Player player) {
@@ -16,7 +17,6 @@ public class HooksActions {
         embed.appendField(new Field()
                 .setName("Убийств")
                 .setValue(String.valueOf(RedEvent.getGame().getPlayerKills(player))));
-        System.out.println(Config.hooks);
         for (Hook hook : Config.hooks) {
             if(hook.notifyDeath) {
                 try {
@@ -30,8 +30,10 @@ public class HooksActions {
         new Thread(() -> {
             ApacheFluentAPI apacheFluentAPI = new ApacheFluentAPI();
             try {
-                apacheFluentAPI.url(url).method(HttpMethod.POST).setPostBody(embed.toJson()).execute();
-            } catch (HttpProtocolException | IOException ignored) { }
+                apacheFluentAPI.url(url).method(HttpMethod.POST).setRequestCharset(StandardCharsets.UTF_8).setContentType("application/json").setPostBody(embed.toJson()).execute();
+            } catch (IOException ignored) { } catch (HttpProtocolException e) {
+                System.out.println(e.getResponse().getString());
+            }
         }).start();
     }
 }

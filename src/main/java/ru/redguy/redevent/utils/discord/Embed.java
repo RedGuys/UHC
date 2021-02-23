@@ -1,7 +1,7 @@
 package ru.redguy.redevent.utils.discord;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,26 +35,26 @@ public class Embed {
     }
 
     public String toJson() {
-        JsonObject result = new JsonObject();
-        JsonArray embdeds = new JsonArray();
-        JsonObject res = new JsonObject();
+        JSONObject result = new JSONObject();
+        JSONArray embdeds = new JSONArray();
+        JSONObject res = new JSONObject();
 
         if(title != null) {
-            result.addProperty("title",title);
+            result.put("title",title);
         }
         if(description != null) {
-            result.addProperty("description",description);
+            result.put("description",description);
         }
         if(fields != null) {
-            JsonArray jsonArray = new JsonArray();
+            JSONArray jsonArray = new JSONArray();
             for (Field field : fields) {
-                jsonArray.add(field.toJsonObject());
+                jsonArray.put(field.toJsonObject());
             }
-            result.add("fields",jsonArray);
+            result.put("fields",jsonArray);
         }
 
-        embdeds.add(result);
-        res.add("embeds",embdeds);
+        embdeds.put(result);
+        res.put("embeds",embdeds);
         return res.toString();
     }
 }
