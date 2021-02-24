@@ -18,10 +18,12 @@ public class AutoComplete implements TabCompleter {
                 complete.add("help");
                 complete.add("add");
                 complete.add("start");
+                complete.removeIf(s -> !s.startsWith(args[0]));
             } else {
                 switch (args[0]) {
                     case "add":
                         complete.addAll(Events.getMap().keySet());
+                        complete.removeIf(s -> !s.startsWith(args[1]));
                         break;
                 }
             }
