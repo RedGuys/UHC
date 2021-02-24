@@ -4,12 +4,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.scheduler.BukkitTask;
 import ru.redguy.redevent.RedEvent;
 
-import java.util.concurrent.TimeUnit;
-
 public class ChatTimer {
 
     private int seconds;
-    private BukkitTask timerTask;
+    private int timerTask;
     private String name;
 
     public ChatTimer(int seconds, String name) {
@@ -18,10 +16,10 @@ public class ChatTimer {
     }
 
     public void Start() {
-        timerTask = Bukkit.getScheduler().runTaskTimer(RedEvent.INSTANCE,new Notifer(),0,20);
+        timerTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(RedEvent.INSTANCE,new Notifer(),0,20);
     }
 
-    public BukkitTask getTimerTask() {
+    public int getTimerTaskId() {
         return timerTask;
     }
 
@@ -29,31 +27,49 @@ public class ChatTimer {
 
         @Override
         public void run() {
+            String cName = null;
+            if(seconds<61) {
+                String ost = "осталось";
+                switch (seconds) {
+                    case 60:
+                    case 30:
+                    case 15:
+                    case 10:
+                    case 5:
+                        cName = "секунд";
+                        break;
+                    case 4:
+                    case 3:
+                    case 2:
+                        cName = "секунды";
+                        break;
+                    case 1:
+                        cName = "секунда";
+                        ost = "осталась";
+                        break;
+                    case 0:
+                        Bukkit.getScheduler().cancelTask(timerTask);
+                        break;
+                }
+                if (cName != null) {
+                    ChatUtils.sendToAll("До " + name + " " + ost + " " + seconds + " " + cName);
+                }
+            } else {
+                switch (seconds) {
+                    case 300:
+                        cName = "минут";
+                        break;
+                    case 240:
+                    case 180:
+                    case 120:
+                        cName = "минуты";
+                        break;
+                }
+                if (cName != null) {
+                    ChatUtils.sendToAll("До " + name + " осталось " + (seconds/60) + " " + cName);
+                }
+            }
             seconds--;
-            String secondName = "";
-            switch (seconds) {
-                case 60:
-                case 30:
-                case 15:
-                case 10:
-                case 5:
-                    secondName = "секунд";
-                    break;
-                case 4:
-                case 3:
-                case 2:
-                    secondName = "секунды";
-                    break;
-                case 1:
-                    secondName = "секунда";
-                    break;
-                case 0:
-                    timerTask.cancel();
-                    break;
-            }
-            if(!secondName.equals("")) {
-                ChatUtils.sendToAll("До " + name + " осталось "+seconds+" "+secondName);
-            }
         }
     }
 }

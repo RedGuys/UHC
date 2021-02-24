@@ -1,6 +1,6 @@
 package ru.redguy.redevent.utils;
 
-public class Runnables {
+public class RunnablePresets {
     public static class PvpOn implements Runnable {
 
         @Override

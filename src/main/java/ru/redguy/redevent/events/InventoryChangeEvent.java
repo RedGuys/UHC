@@ -7,15 +7,13 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitScheduler;
 import ru.redguy.redevent.RedEvent;
 import ru.redguy.redevent.utils.ChatUtils;
-import ru.redguy.redevent.utils.TextUtils;
+import ru.redguy.redevent.utils.RunnablePresets;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -51,6 +49,7 @@ public class InventoryChangeEvent implements Event {
     @Override
     public void registerTimers() {
         BukkitScheduler scheduler = Bukkit.getScheduler();
+        tasks.add(scheduler.scheduleSyncRepeatingTask(RedEvent.INSTANCE, new RunnablePresets.Timer("смены инвентарей",270),600,6000));
         tasks.add(scheduler.scheduleSyncRepeatingTask(RedEvent.INSTANCE, new InventorySwap(),6000,6000));
     }
 

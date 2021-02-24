@@ -46,3 +46,8 @@ processResources {
 jar {
     from { configurations.runtime.collect { it.isDirectory() ? it : zipTree(it) } }
 }
+
+task copytorun(type: Copy) {
+    from file("$buildDir/libs/redevent-1.0.jar")
+    into file("$projectDir/run/plugins/")
+}

@@ -13,9 +13,13 @@ public class Start implements SubCommand {
         if(CommandsUtils.checkPermissions(sender,"redevents.command.start")) {
             if (RedEvent.getGame().gameState == GameState.wait) {
                 if (Bukkit.getOnlinePlayers().size() > 1) {
-                    RedEvent.getGame().start();
+                    if(RedEvent.getGame().getScenariosCount() > 0) {
+                        RedEvent.getGame().start();
+                    } else {
+                        sender.sendMessage("Сценарий не добавлен!");
+                    }
                 } else {
-                    sender.sendMessage("Недостаточно игроков");
+                    sender.sendMessage("Недостаточно игроков!");
                 }
             } else {
                 sender.sendMessage("Игра уже началась!");

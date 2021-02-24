@@ -10,7 +10,9 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import ru.redguy.redevent.events.Event;
+import ru.redguy.redevent.utils.ChatUtils;
 import ru.redguy.redevent.utils.ListUtils;
+import ru.redguy.redevent.utils.TeleportUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,11 +34,15 @@ public class Game implements Listener {
     public void start() {
         players.addAll(Bukkit.getOnlinePlayers());
         rejoinablePlayers.addAll(players);
+        StringBuilder scenarioString = new StringBuilder();
         for (Event scenario : scenarios) {
+            scenarioString.append(scenario.getEventName()).append(" ,");
             scenario.registerTimers();
             scenario.Init();
         }
         gameState = GameState.game;
+        ChatUtils.sendToAll("Игра началась!");
+        ChatUtils.sendToAll("Активные модификаторы: "+scenarioString.substring(0,scenarioString.length()-1));
     }
 
     public boolean isPlayerInGame(Player player) {
@@ -57,6 +63,10 @@ public class Game implements Listener {
                 scenarios.add(event);
             }
         }
+    }
+
+    public int getScenariosCount() {
+        return scenarios.size();
     }
 
     @EventHandler(priority = EventPriority.HIGH)
