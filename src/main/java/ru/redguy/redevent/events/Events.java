@@ -5,8 +5,8 @@ import java.util.HashMap;
 public class Events {
     public static HashMap<String, Class<?>> getMap() {
         HashMap<String, Class<?>> res = new HashMap<>();
-        //res.put("PosChange",PosChangeEvent.class);
-        res.put("InvChange",InventoryChangeEvent.class);
+        res.put("PositionSwap",PositionSwapEvent.class);
+        res.put("InventorySwap", InventorySwapEvent.class);
         /*res.put("HostDamage",HostDamageEvent.class);
         res.put("RandBlockSpawn",RandomBlockSpawnEvent.class);
         res.put("OneBlockRoad",OneBlockRoadEvent.class);
