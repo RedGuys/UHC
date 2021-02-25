@@ -12,6 +12,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import ru.redguy.redevent.events.Event;
 import ru.redguy.redevent.utils.ChatUtils;
 import ru.redguy.redevent.utils.ListUtils;
+import ru.redguy.redevent.utils.PlayersUtils;
 import ru.redguy.redevent.utils.TeleportUtils;
 import ru.redguy.redevent.utils.discord.HooksActions;
 
@@ -37,6 +38,11 @@ public class Game implements Listener {
             scenario.Init();
         }
         gameState = GameState.game;
+        PlayersUtils.teleportAllPlayers(TeleportUtils.getSafeLocation(0,0));
+        PlayersUtils.clearAllEffects();
+        PlayersUtils.clearInventoriesAll();
+        PlayersUtils.feedAllPlayers();
+        PlayersUtils.regenAllPlayers();
         ChatUtils.sendToAll("Игра началась!");
         ChatUtils.sendToAll("Активные модификаторы: "+scenarioString.substring(0,scenarioString.length()-1));
     }

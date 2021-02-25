@@ -27,6 +27,7 @@ public final class RedEvent extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new HooksEvents(),this);
 
         game = new Game();
+        Bukkit.getPluginManager().registerEvents(game, this);
     }
 
     @Override
