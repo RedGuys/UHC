@@ -6,6 +6,8 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
@@ -68,17 +70,17 @@ public class PositionSwapEvent implements Event {
     }
 
     @Override
-    public void onDeath(EntityDamageEvent event) {
+    public void onDeath(PlayerDeathEvent event) {
+
+    }
+
+    @Override
+    public void onDamage(EntityDamageEvent event, Player player) {
 
     }
 
     @Override
     public void onDisconnect(PlayerQuitEvent event) {
-
-    }
-
-    @Override
-    public void onDamaged(EntityDamageEvent event) {
 
     }
 
@@ -103,10 +105,7 @@ public class PositionSwapEvent implements Event {
             }
             Collections.shuffle(positions);
             for (int i = 0; i < players.size(); i++) {
-                Location location = players.get(i).getLocation();
-                location.setX(positions.get(i).getX());
-                location.setY(positions.get(i).getY());
-                location.setZ(positions.get(i).getZ());
+                players.get(i).teleport(positions.get(i));
             }
             ChatUtils.sendToAll("Обмен позициями!");
         }

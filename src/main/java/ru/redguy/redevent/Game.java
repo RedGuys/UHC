@@ -1,12 +1,15 @@
 package ru.redguy.redevent;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import ru.redguy.redevent.events.Event;
@@ -72,17 +75,27 @@ public class Game implements Listener {
     }
 
     @EventHandler(priority = EventPriority.HIGH)
-    public void onDeath(EntityDamageEvent event) {
-        if(!event.isCancelled()) {
-            if (event.getEntity() instanceof Player) {
-                Player player = (Player) event.getEntity();
-                if (RedEvent.getGame().isPlayerInGame(player)) {
-                    if ((player.getHealth() - event.getDamage()) <= 0) {
-                        for (Event scenario : scenarios) {
-                            scenario.onDeath(event);
-                        }
-                        handlePlayerLost(player);
-                    }
+    public void onDeath(EntityDeathEvent eve) {
+        if (eve instanceof PlayerDeathEvent) {
+            PlayerDeathEvent event = (PlayerDeathEvent) eve;
+            Player dead = event.getEntity();
+            Player killer = dead.getKiller();
+            if (RedEvent.getGame().isPlayerInGame(dead)) {
+                for (Event scenario : scenarios) {
+                    scenario.onDeath(event);
+                }
+                handlePlayerLost(dead);
+            }
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onDamage(EntityDamageEvent event) {
+        if(event.getEntity() instanceof Player) {
+            Player player = (Player) event.getEntity();
+            if(RedEvent.getGame().isPlayerInGame(player)) {
+                for (Event scenario : scenarios) {
+                    scenario.onDamage(event, player);
                 }
             }
         }

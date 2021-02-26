@@ -7,8 +7,8 @@ public class Events {
         HashMap<String, Class<?>> res = new HashMap<>();
         res.put("PositionSwap",PositionSwapEvent.class);
         res.put("InventorySwap", InventorySwapEvent.class);
-        /*res.put("HostDamage",HostDamageEvent.class);
-        res.put("RandBlockSpawn",RandomBlockSpawnEvent.class);
+        res.put("HostDamage",HostDamageEvent.class);
+        /*res.put("RandBlockSpawn",RandomBlockSpawnEvent.class);
         res.put("OneBlockRoad",OneBlockRoadEvent.class);
         res.put("FurnaceWar",FurnaceWar.class);
         res.put("BloodOres",BloodOres.class);

@@ -5,6 +5,8 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
@@ -67,17 +69,17 @@ public class InventorySwapEvent implements Event {
     }
 
     @Override
-    public void onDeath(EntityDamageEvent event) {
+    public void onDeath(PlayerDeathEvent event) {
+
+    }
+
+    @Override
+    public void onDamage(EntityDamageEvent event, Player player) {
 
     }
 
     @Override
     public void onDisconnect(PlayerQuitEvent event) {
-
-    }
-
-    @Override
-    public void onDamaged(EntityDamageEvent event) {
 
     }
 
