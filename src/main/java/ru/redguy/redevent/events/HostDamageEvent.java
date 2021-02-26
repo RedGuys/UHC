@@ -4,7 +4,6 @@ import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -12,12 +11,8 @@ import ru.redguy.redevent.RedEvent;
 import ru.redguy.redevent.utils.ChatUtils;
 import ru.redguy.redevent.utils.PlayersUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class HostDamageEvent implements Event {
 
-    List<Integer> tasks = new ArrayList<>();
     Player host;
 
     @Override

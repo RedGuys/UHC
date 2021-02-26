@@ -3,40 +3,40 @@ package ru.redguy.redevent.events;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitScheduler;
 import ru.redguy.redevent.RedEvent;
 import ru.redguy.redevent.utils.ChatUtils;
 import ru.redguy.redevent.utils.RunnablePresets;
+import ru.redguy.redevent.utils.WhiteLists;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
-public class PositionSwapEvent implements Event {
+public class RandomBlockSpawnEvent implements Event {
 
     List<Integer> tasks = new ArrayList<>();
 
     @Override
     public String getEventName() {
-        return "Смена позиций";
+        return "Спавн случайного блока";
     }
 
     @Override
     public String getEventShortDescription() {
-        return "Заставит вас поменяться местами с другим игроком";
+        return "Будет спавнить случайный блок под вами каждую минуту";
     }
 
     @Override
     public String getEventFullDescription() {
-        return "Каждые 5 минут игроки будут менятся позициями";
+        return "Каждую минуту под вами будет спавниться случайный блок.";
     }
 
     @Override
@@ -52,8 +52,8 @@ public class PositionSwapEvent implements Event {
     @Override
     public void registerTimers() {
         BukkitScheduler scheduler = Bukkit.getScheduler();
-        tasks.add(scheduler.scheduleSyncRepeatingTask(RedEvent.INSTANCE, new RunnablePresets.Timer("смены позиций",270),600,6000));
-        tasks.add(scheduler.scheduleSyncRepeatingTask(RedEvent.INSTANCE, new PositionSwap(),6000,6000));
+        tasks.add(scheduler.scheduleSyncRepeatingTask(RedEvent.INSTANCE, new RunnablePresets.Timer("спавна блока",60),0,1200));
+        tasks.add(scheduler.scheduleSyncRepeatingTask(RedEvent.INSTANCE, new BlockSpawner(),1200,1200));
     }
 
     @Override
@@ -63,10 +63,7 @@ public class PositionSwapEvent implements Event {
 
     @Override
     public void unRegisterTimers() {
-        BukkitScheduler scheduler = Bukkit.getScheduler();
-        for (Integer task : tasks) {
-            scheduler.cancelTask(task);
-        }
+
     }
 
     @Override
@@ -75,12 +72,12 @@ public class PositionSwapEvent implements Event {
     }
 
     @Override
-    public void onDamage(EntityDamageEvent event, Player player) {
+    public void onDisconnect(PlayerQuitEvent event) {
 
     }
 
     @Override
-    public void onDisconnect(PlayerQuitEvent event) {
+    public void onDamage(EntityDamageEvent event, Player player) {
 
     }
 
@@ -94,20 +91,16 @@ public class PositionSwapEvent implements Event {
 
     }
 
-    private static class PositionSwap implements Runnable {
+    class BlockSpawner implements Runnable {
 
         @Override
         public void run() {
-            List<Player> players = RedEvent.getGame().getPlayers();
-            List<Location> positions = new ArrayList<>();
-            for (Player player : players) {
-                positions.add(player.getLocation());
+            for (Player player : RedEvent.getGame().getPlayers()) {
+                Material blockType = WhiteLists.blockSpawn[new Random().nextInt(WhiteLists.blockSpawn.length)];
+                Location location = player.getLocation();
+                location.subtract(0,1,0).getBlock().setType(blockType);
             }
-            Collections.shuffle(positions);
-            for (int i = 0; i < players.size(); i++) {
-                players.get(i).teleport(positions.get(i));
-            }
-            ChatUtils.sendToAll("Обмен позициями!");
+            ChatUtils.sendToAll("Спавн блоков!");
         }
     }
 }

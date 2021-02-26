@@ -8,8 +8,8 @@ public class Events {
         res.put("PositionSwap",PositionSwapEvent.class);
         res.put("InventorySwap", InventorySwapEvent.class);
         res.put("HostDamage",HostDamageEvent.class);
-        /*res.put("RandBlockSpawn",RandomBlockSpawnEvent.class);
-        res.put("OneBlockRoad",OneBlockRoadEvent.class);
+        res.put("RandomBlockSpawn",RandomBlockSpawnEvent.class);
+        /*res.put("OneBlockRoad",OneBlockRoadEvent.class);
         res.put("FurnaceWar",FurnaceWar.class);
         res.put("BloodOres",BloodOres.class);
         res.put("HardOres",HardOres.class);
