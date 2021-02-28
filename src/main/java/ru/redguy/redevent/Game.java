@@ -108,7 +108,11 @@ public class Game implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onMoved(PlayerMoveEvent event) {
-
+        if(isPlayerInGame(event.getPlayer())) {
+            for (Event scenario : scenarios) {
+                scenario.onMoved(event);
+            }
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGH)
