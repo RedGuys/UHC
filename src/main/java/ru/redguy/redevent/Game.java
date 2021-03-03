@@ -117,7 +117,11 @@ public class Game implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onBlockBreak(BlockBreakEvent event) {
-
+        if(isPlayerInGame(event.getPlayer())) {
+            for (Event scenario : scenarios) {
+                scenario.onBlockBreak(event);
+            }
+        }
     }
 
     private void handlePlayerLost(Player player) {

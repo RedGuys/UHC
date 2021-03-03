@@ -10,8 +10,8 @@ public class Events {
         res.put("HostDamage",HostDamageEvent.class);
         res.put("RandomBlockSpawn",RandomBlockSpawnEvent.class);
         res.put("WalkRoad",WalkRoadEvent.class);
-        /*res.put("FurnaceWar",FurnaceWar.class);
-        res.put("BloodOres",BloodOres.class);
+        res.put("FurnaceWar",FurnaceWar.class);
+        /*res.put("BloodOres",BloodOres.class);
         res.put("HardOres",HardOres.class);
         res.put("DragonEscape",DragonEscape.class);
         res.put("HighLevel",HighLevel.class);
