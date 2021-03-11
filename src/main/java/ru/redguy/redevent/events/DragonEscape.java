@@ -2,8 +2,6 @@ package ru.redguy.redevent.events;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -14,29 +12,30 @@ import org.bukkit.scheduler.BukkitScheduler;
 import ru.redguy.redevent.RedEvent;
 import ru.redguy.redevent.utils.ChatUtils;
 import ru.redguy.redevent.utils.RunnablePresets;
-import ru.redguy.redevent.utils.WhiteLists;
+import ru.redguy.redevent.utils.TeleportUtils;
+import ru.redguy.redevent.utils.WorldsUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.util.Objects;
 
-public class RandomBlockSpawnEvent implements Event {
+public class DragonEscape implements Event {
 
     List<Integer> tasks = new ArrayList<>();
 
     @Override
     public String getEventName() {
-        return "Спавн случайного блока";
+        return "Драконий рай";
     }
 
     @Override
     public String getEventShortDescription() {
-        return "Будет спавнить случайный блок под вами каждую минуту";
+        return "Будет спавнить дракона на спавне каждые 10 минут";
     }
 
     @Override
     public String getEventFullDescription() {
-        return "Каждую минуту под вами будет спавниться случайный блок.";
+        return "Каждые 10 минут на спавне будет спавнится дракон";
     }
 
     @Override
@@ -52,8 +51,8 @@ public class RandomBlockSpawnEvent implements Event {
     @Override
     public void registerTimers() {
         BukkitScheduler scheduler = Bukkit.getScheduler();
-        tasks.add(scheduler.scheduleSyncRepeatingTask(RedEvent.INSTANCE, new RunnablePresets.Timer("спавна блока",60),0,1200));
-        tasks.add(scheduler.scheduleSyncRepeatingTask(RedEvent.INSTANCE, new BlockSpawner(),1200,1200));
+        tasks.add(scheduler.scheduleSyncRepeatingTask(RedEvent.INSTANCE, new RunnablePresets.Timer("спавна дракона",600),0,12000));
+        tasks.add(scheduler.scheduleSyncRepeatingTask(RedEvent.INSTANCE, new DragonSpawner(),12000,12000));
     }
 
     @Override
@@ -94,16 +93,12 @@ public class RandomBlockSpawnEvent implements Event {
 
     }
 
-    class BlockSpawner implements Runnable {
+    static class DragonSpawner implements Runnable {
 
         @Override
         public void run() {
-            for (Player player : RedEvent.getGame().getPlayers()) {
-                Material blockType = WhiteLists.blockSpawn[new Random().nextInt(WhiteLists.blockSpawn.length)];
-                Location location = player.getLocation();
-                location.subtract(0,1,0).getBlock().setType(blockType);
-            }
-            ChatUtils.sendToAll("Спавн блоков!");
+            ChatUtils.sendToAll("Спавн дракона!");
+            WorldsUtils.spawnDragon(Objects.requireNonNull(TeleportUtils.getSafeLocation(0, 0)));
         }
     }
 }
