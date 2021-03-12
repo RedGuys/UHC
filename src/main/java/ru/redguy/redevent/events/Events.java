@@ -14,8 +14,8 @@ public class Events {
         res.put("BloodOres",BloodOres.class);
         res.put("HardOres",HardOres.class);
         res.put("DragonEscape",DragonEscape.class);
-        /*res.put("HighLevel",HighLevel.class);
-        res.put("SuperHeros",SuperHeros.class);
+        res.put("HighestDeath",HighestDeath.class);
+        /*res.put("SuperHeros",SuperHeros.class);
         res.put("WeakestDIE",WeakestDie.class);
         res.put("DogyTime",DogyTime.class);
         res.put("FlyTime",FlyTime.class);
