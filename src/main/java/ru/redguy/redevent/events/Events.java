@@ -17,11 +17,7 @@ public class Events {
         res.put("HighestDeath",HighestDeath.class);
         res.put("SuperHeros",SuperHeros.class);
         res.put("WeakestDie",WeakestDie.class);
-        res.put("DogyTime",DoggyTime.class);
-        /*res.put("FlyTime",FlyTime.class);
-        res.put("Flashers",Flashers.class);
-        res.put("StoneMiners",StoneMiners.class);
-        res.put("LavaWorld",LavaWorld.class);*/
+        res.put("DoggyTime",DoggyTime.class);
         return res;
     }
 }
