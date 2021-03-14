@@ -12,11 +12,10 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.scheduler.BukkitTask;
+import ru.redguy.redevent.events.DragonEscape;
 import ru.redguy.redevent.events.Event;
-import ru.redguy.redevent.utils.ChatUtils;
-import ru.redguy.redevent.utils.ListUtils;
-import ru.redguy.redevent.utils.PlayersUtils;
-import ru.redguy.redevent.utils.TeleportUtils;
+import ru.redguy.redevent.utils.*;
 import ru.redguy.redevent.utils.discord.HooksActions;
 
 import java.util.*;
@@ -27,6 +26,8 @@ public class Game implements Listener {
     private List<Event> scenarios = new ArrayList<>();
     Map<String, Integer> kills = new HashMap<>();
     ArrayList<Player> players = new ArrayList<>();
+    private int borderSize;
+    private int borderTask;
 
     public Game() {
 
@@ -46,6 +47,10 @@ public class Game implements Listener {
         PlayersUtils.clearInventoriesAll();
         PlayersUtils.feedAllPlayers();
         PlayersUtils.regenAllPlayers();
+        WorldsUtils.getDefaultWorld().getWorldBorder().setSize(2000);
+        borderSize = 2000;
+        WorldsUtils.getDefaultWorld().getWorldBorder().setCenter(0,0);
+        borderTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(RedEvent.INSTANCE, new BorderWorker(),12000,12000);
         ChatUtils.sendToAll("Игра началась!");
         ChatUtils.sendToAll("Активные модификаторы: "+scenarioString.substring(0,scenarioString.length()-1));
     }
@@ -148,5 +153,36 @@ public class Game implements Listener {
         kills.clear();
         scenarios.clear();
         gameState = GameState.wait;
+    }
+
+    class BorderWorker implements Runnable {
+
+        @Override
+        public void run() {
+            int resizeTime = 0;
+            switch (borderSize) {
+                case 2000:
+                    borderSize = 1000;
+                    resizeTime = 6000;
+                    break;
+                case 1000:
+                    borderSize = 500;
+                    resizeTime = 3000;
+                    break;
+                case 500:
+                    borderSize = 250;
+                    resizeTime = 1500;
+                    break;
+                case 250:
+                    borderSize = 25;
+                    resizeTime = 150;
+                    break;
+                case 25:
+                    Bukkit.getScheduler().cancelTask(borderTask);
+                    return;
+            }
+
+            WorldsUtils.getDefaultWorld().getWorldBorder().setSize(borderSize,resizeTime);
+        }
     }
 }
