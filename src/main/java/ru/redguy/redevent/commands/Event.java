@@ -25,6 +25,9 @@ public class Event implements CommandExecutor {
                 return new Add().onCommand(sender,command,label,args);
             case "start":
                 return new Start().onCommand(sender, command, label, args);
+            case "i":
+            case "info":
+                return new Info().onCommand(sender, command, label, args);
         }
         return true;
     }

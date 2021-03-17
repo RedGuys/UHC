@@ -79,6 +79,10 @@ public class Game implements Listener {
         return scenarios.size();
     }
 
+    public List<Event> getScenarios() {
+        return scenarios;
+    }
+
     @EventHandler(priority = EventPriority.HIGH)
     public void onDeath(EntityDeathEvent eve) {
         if (eve instanceof PlayerDeathEvent) {
