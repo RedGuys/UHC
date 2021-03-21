@@ -6,6 +6,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
 import ru.redguy.redevent.RedEvent;
 import ru.redguy.redevent.utils.callbacks.PlayerCallback;
 
@@ -61,7 +62,9 @@ public class PlayersUtils {
     }
 
     public static void clearEffects(Player player) {
-        player.getEffectivePermissions().clear();
+        for (PotionEffect effect : player.getActivePotionEffects()) {
+            player.removePotionEffect(effect.getType());
+        }
     }
 
     public static void clearAllEffects() {

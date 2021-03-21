@@ -52,7 +52,7 @@ public class RandomBlockSpawnEvent implements Event {
     @Override
     public void registerTimers() {
         BukkitScheduler scheduler = Bukkit.getScheduler();
-        tasks.add(scheduler.scheduleSyncRepeatingTask(RedEvent.INSTANCE, new RunnablePresets.Timer("спавна блока",60),0,1200));
+        tasks.add(scheduler.scheduleSyncRepeatingTask(RedEvent.INSTANCE, new RunnablePresets.Timer("спавна блока",60,this),0,1200));
         tasks.add(scheduler.scheduleSyncRepeatingTask(RedEvent.INSTANCE, new BlockSpawner(),1200,1200));
     }
 
@@ -67,6 +67,11 @@ public class RandomBlockSpawnEvent implements Event {
         for (Integer task : tasks) {
             scheduler.cancelTask(task);
         }
+    }
+
+    @Override
+    public void addTimerId(int id) {
+        tasks.add(id);
     }
 
     @Override

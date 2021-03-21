@@ -1,5 +1,7 @@
 package ru.redguy.redevent.utils;
 
+import ru.redguy.redevent.events.Event;
+
 public class RunnablePresets {
     public static class PvpOn implements Runnable {
 
@@ -43,14 +45,16 @@ public class RunnablePresets {
 
         String text;
         int seconds;
+        Event event;
 
-        public Timer(String text, int seconds) {
+        public Timer(String text, int seconds, Event event) {
             this.text = text;
             this.seconds = seconds;
+            this.event = event;
         }
 
         public void run() {
-            ChatTimer chatTimer = new ChatTimer(seconds,text);
+            ChatTimer chatTimer = new ChatTimer(seconds,text,event);
             chatTimer.Start();
         }
     }

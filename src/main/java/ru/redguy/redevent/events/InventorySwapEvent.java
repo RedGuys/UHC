@@ -50,7 +50,7 @@ public class InventorySwapEvent implements Event {
     @Override
     public void registerTimers() {
         BukkitScheduler scheduler = Bukkit.getScheduler();
-        tasks.add(scheduler.scheduleSyncRepeatingTask(RedEvent.INSTANCE, new RunnablePresets.Timer("смены инвентарей",270),600,6000));
+        tasks.add(scheduler.scheduleSyncRepeatingTask(RedEvent.INSTANCE, new RunnablePresets.Timer("смены инвентарей",270,this),600,6000));
         tasks.add(scheduler.scheduleSyncRepeatingTask(RedEvent.INSTANCE, new InventorySwap(),6000,6000));
     }
 
@@ -65,6 +65,11 @@ public class InventorySwapEvent implements Event {
         for (Integer task : tasks) {
             scheduler.cancelTask(task);
         }
+    }
+
+    @Override
+    public void addTimerId(int id) {
+        tasks.add(id);
     }
 
     @Override

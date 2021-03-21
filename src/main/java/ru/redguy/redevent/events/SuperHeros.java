@@ -57,6 +57,11 @@ public class SuperHeros implements Event {
     }
 
     @Override
+    public void addTimerId(int id) {
+
+    }
+
+    @Override
     public void onDeath(PlayerDeathEvent event) {
 
     }

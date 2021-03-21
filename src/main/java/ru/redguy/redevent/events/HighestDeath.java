@@ -15,7 +15,6 @@ import ru.redguy.redevent.utils.PlayersUtils;
 import ru.redguy.redevent.utils.RunnablePresets;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -51,7 +50,7 @@ public class HighestDeath implements Event {
     @Override
     public void registerTimers() {
         BukkitScheduler scheduler = Bukkit.getScheduler();
-        tasks.add(scheduler.scheduleSyncRepeatingTask(RedEvent.INSTANCE, new RunnablePresets.Timer("смерти игрока",60),0,1200));
+        tasks.add(scheduler.scheduleSyncRepeatingTask(RedEvent.INSTANCE, new RunnablePresets.Timer("смерти игрока",60,this),0,1200));
         tasks.add(scheduler.scheduleSyncRepeatingTask(RedEvent.INSTANCE, new Killer(),1200,1200));
     }
 
@@ -66,6 +65,11 @@ public class HighestDeath implements Event {
         for (Integer task : tasks) {
             scheduler.cancelTask(task);
         }
+    }
+
+    @Override
+    public void addTimerId(int id) {
+        tasks.add(id);
     }
 
     @Override
@@ -98,7 +102,7 @@ public class HighestDeath implements Event {
         public void run() {
             List<Player> players = PlayersUtils.getAllPlayers();
             players.sort(Comparator.comparingDouble(o -> o.getLocation().getY()));
-            Player killed = players.get(0);
+            Player killed = players.get(players.size()-1);
             killed.damage(killed.getHealth()+1);
             ChatUtils.sendToAll(killed.getName()+" был убит! y="+killed.getLocation().getY());
         }

@@ -52,6 +52,11 @@ public class HardOres implements Event {
     }
 
     @Override
+    public void addTimerId(int id) {
+
+    }
+
+    @Override
     public void onDeath(PlayerDeathEvent event) {
 
     }
@@ -76,6 +81,7 @@ public class HardOres implements Event {
         Material blockType = event.getBlock().getType();
         if (blockType == Material.COAL_ORE || blockType == Material.IRON_ORE || blockType == Material.LAPIS_ORE || blockType == Material.GOLD_ORE || blockType == Material.REDSTONE_ORE || blockType == Material.DIAMOND_ORE || blockType == Material.EMERALD_ORE) {
             event.getPlayer().getInventory().setItemInMainHand(new ItemStack(Material.AIR));
+            event.getPlayer().getInventory().addItem(new ItemStack(blockType));
         }
     }
 }

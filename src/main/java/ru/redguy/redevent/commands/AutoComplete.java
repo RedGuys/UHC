@@ -19,6 +19,8 @@ public class AutoComplete implements TabCompleter {
                 complete.add("add");
                 complete.add("start");
                 complete.add("info");
+                complete.add("i");
+                complete.add("stop");
                 complete.removeIf(s -> !s.startsWith(args[0]));
             } else {
                 switch (args[0]) {

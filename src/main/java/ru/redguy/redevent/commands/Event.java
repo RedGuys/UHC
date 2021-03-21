@@ -28,6 +28,8 @@ public class Event implements CommandExecutor {
             case "i":
             case "info":
                 return new Info().onCommand(sender, command, label, args);
+            case "stop":
+                return new Stop().onCommand(sender, command, label, args);
         }
         return true;
     }

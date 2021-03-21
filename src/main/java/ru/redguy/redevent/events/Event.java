@@ -20,6 +20,8 @@ public interface Event {
     void stop();
     void unRegisterTimers();
 
+    void addTimerId(int id);
+
     void onDeath(PlayerDeathEvent event);
     void onDisconnect(PlayerQuitEvent event);
     void onDamage(EntityDamageEvent event, Player player);

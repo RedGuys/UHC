@@ -37,11 +37,12 @@ public class Game implements Listener {
         players.addAll(Bukkit.getOnlinePlayers());
         StringBuilder scenarioString = new StringBuilder();
         for (Event scenario : scenarios) {
-            scenarioString.append(scenario.getEventName()).append(" ,");
+            scenarioString.append(scenario.getEventName()).append(", ");
             scenario.registerTimers();
             scenario.Init();
         }
         gameState = GameState.game;
+        PlayersUtils.forAllAlivePlayers((player -> player.spigot().respawn()));
         PlayersUtils.teleportAllPlayers(TeleportUtils.getSafeLocation(0,0));
         PlayersUtils.clearAllEffects();
         PlayersUtils.clearInventoriesAll();
@@ -83,6 +84,11 @@ public class Game implements Listener {
         return scenarios;
     }
 
+    public void stop() {
+        workStop();
+        ChatUtils.sendToAll("Игра остановлена!");
+    }
+
     @EventHandler(priority = EventPriority.HIGH)
     public void onDeath(EntityDeathEvent eve) {
         if (eve instanceof PlayerDeathEvent) {
@@ -112,7 +118,9 @@ public class Game implements Listener {
 
     @EventHandler(priority = EventPriority.HIGH)
     public void onDisconnect(PlayerQuitEvent event) {
-        handlePlayerLost(event.getPlayer());
+        if(isPlayerInGame(event.getPlayer())) {
+            handlePlayerLost(event.getPlayer());
+        }
     }
 
     @EventHandler(priority = EventPriority.HIGH)

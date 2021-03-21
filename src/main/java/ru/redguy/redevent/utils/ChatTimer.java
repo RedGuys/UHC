@@ -1,22 +1,25 @@
 package ru.redguy.redevent.utils;
 
 import org.bukkit.Bukkit;
-import org.bukkit.scheduler.BukkitTask;
 import ru.redguy.redevent.RedEvent;
+import ru.redguy.redevent.events.Event;
 
 public class ChatTimer {
 
     private int seconds;
     private int timerTask;
     private String name;
+    private Event event;
 
-    public ChatTimer(int seconds, String name) {
+    public ChatTimer(int seconds, String name, Event event) {
         this.seconds = seconds;
         this.name = name;
+        this.event = event;
     }
 
     public void Start() {
         timerTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(RedEvent.INSTANCE,new Notifer(),0,20);
+        event.addTimerId(timerTask);
     }
 
     public int getTimerTaskId() {
