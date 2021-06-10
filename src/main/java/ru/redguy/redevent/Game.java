@@ -1,6 +1,7 @@
 package ru.redguy.redevent;
 
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,8 +11,10 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.scheduler.BukkitTask;
 import ru.redguy.redevent.events.DragonEscape;
 import ru.redguy.redevent.events.Event;
@@ -28,6 +31,7 @@ public class Game implements Listener {
     ArrayList<Player> players = new ArrayList<>();
     private int borderSize;
     private int borderTask;
+    private int borderAnonceTask;
 
     public Game() {
 
@@ -48,9 +52,11 @@ public class Game implements Listener {
         PlayersUtils.clearInventoriesAll();
         PlayersUtils.feedAllPlayers();
         PlayersUtils.regenAllPlayers();
+        PlayersUtils.setGameModeToAll(GameMode.SURVIVAL);
         WorldsUtils.getDefaultWorld().getWorldBorder().setSize(2000);
         borderSize = 2000;
         WorldsUtils.getDefaultWorld().getWorldBorder().setCenter(0,0);
+        borderAnonceTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(RedEvent.INSTANCE,new RunnablePresets.Timer("уменьшения барьера",600,scenarios.get(0)),0,12000);
         borderTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(RedEvent.INSTANCE, new BorderWorker(),12000,12000);
         ChatUtils.sendToAll("Игра началась!");
         ChatUtils.sendToAll("Активные модификаторы: "+scenarioString.substring(0,scenarioString.length()-1));
@@ -123,6 +129,11 @@ public class Game implements Listener {
         }
     }
 
+    @EventHandler
+    public void onConnect(PlayerJoinEvent event) {
+        event.getPlayer().setGameMode(GameMode.SPECTATOR);
+    }
+
     @EventHandler(priority = EventPriority.HIGH)
     public void onMoved(PlayerMoveEvent event) {
         if(isPlayerInGame(event.getPlayer())) {
@@ -130,6 +141,12 @@ public class Game implements Listener {
                 scenario.onMoved(event);
             }
         }
+    }
+
+    @EventHandler
+    public void onRespawn(PlayerRespawnEvent event) {
+        event.setRespawnLocation(TeleportUtils.getSafeLocation(0,0));
+        event.getPlayer().setGameMode(GameMode.SPECTATOR);
     }
 
     @EventHandler(priority = EventPriority.HIGH)
@@ -143,6 +160,7 @@ public class Game implements Listener {
 
     private void handlePlayerLost(Player player) {
         players.remove(player);
+        player.setGameMode(GameMode.SPECTATOR);
         if(players.size() < 2) {
             Optional<Player> optionalWinner = players.stream().findAny();
             Player winner;

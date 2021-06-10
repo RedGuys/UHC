@@ -27,7 +27,7 @@ repositories {
     }
     maven {
         name = 'redguy'
-        url = 'https://mvn.redguy.ru/repository/maven-public/'
+        url = 'https://repo.redguy.ru/repository/maven-public/'
     }
 }
 
