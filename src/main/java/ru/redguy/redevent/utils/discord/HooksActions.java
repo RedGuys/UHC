@@ -3,12 +3,10 @@ package ru.redguy.redevent.utils.discord;
 import org.bukkit.entity.Player;
 import ru.redguy.redevent.Config;
 import ru.redguy.redevent.RedEvent;
-import ru.redguy.rednetworker.clients.http.ApacheFluentAPI;
-import ru.redguy.rednetworker.clients.http.HttpMethod;
-import ru.redguy.rednetworker.clients.http.exceptions.HttpProtocolException;
+import ru.redguy.redevent.utils.HttpUtils;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 
 public class HooksActions {
     public static void OnDeath(Player player) {
@@ -28,12 +26,9 @@ public class HooksActions {
 
     public static void send(String url, Embed embed) {
         new Thread(() -> {
-            ApacheFluentAPI apacheFluentAPI = new ApacheFluentAPI();
             try {
-                apacheFluentAPI.url(url).method(HttpMethod.POST).setRequestCharset(StandardCharsets.UTF_8).setContentType("application/json").setPostBody(embed.toJson()).execute();
-            } catch (IOException ignored) { } catch (HttpProtocolException e) {
-                System.out.println(e.getResponse().getString());
-            }
+                HttpUtils.Post(url, embed.toJson(), new HashMap<>());
+            } catch (IOException ignored) { }
         }).start();
     }
 }

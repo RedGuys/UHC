@@ -32,8 +32,8 @@ repositories {
 }
 
 dependencies {
-    compile 'ru.redguy:redguyapi:1.0.6'
-    compile 'ru.redguy.rednetworker.clients.http:apachefluentapi:1.0.6'
+    compile 'ru.redguy:redguyapi:1.0.8'
+    compile 'com.squareup.okhttp3:okhttp:4.9.0'
     compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
 }
 

@@ -18,7 +18,7 @@ public class ChatTimer {
     }
 
     public void Start() {
-        timerTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(RedEvent.INSTANCE,new Notifer(),0,20);
+        timerTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(RedEvent.Instance,new Notifer(),0,20);
         event.addTimerId(timerTask);
     }
 

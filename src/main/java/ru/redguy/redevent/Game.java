@@ -2,7 +2,6 @@ package ru.redguy.redevent;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -15,12 +14,11 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
-import org.bukkit.scheduler.BukkitTask;
-import ru.redguy.redevent.events.DragonEscape;
 import ru.redguy.redevent.events.Event;
 import ru.redguy.redevent.utils.*;
-import ru.redguy.redevent.utils.discord.HooksActions;
+import ru.redguy.redguyapi.ApiError;
 
+import java.io.IOException;
 import java.util.*;
 
 public class Game implements Listener {
@@ -56,8 +54,8 @@ public class Game implements Listener {
         WorldsUtils.getDefaultWorld().getWorldBorder().setSize(2000);
         borderSize = 2000;
         WorldsUtils.getDefaultWorld().getWorldBorder().setCenter(0,0);
-        borderAnonceTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(RedEvent.INSTANCE,new RunnablePresets.Timer("уменьшения барьера",600,scenarios.get(0)),0,12000);
-        borderTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(RedEvent.INSTANCE, new BorderWorker(),12000,12000);
+        borderAnonceTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(RedEvent.Instance,new RunnablePresets.Timer("уменьшения барьера",600,scenarios.get(0)),0,12000);
+        borderTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(RedEvent.Instance, new BorderWorker(),12000,12000);
         ChatUtils.sendToAll("Игра началась!");
         ChatUtils.sendToAll("Активные модификаторы: "+scenarioString.substring(0,scenarioString.length()-1));
     }
@@ -106,6 +104,15 @@ public class Game implements Listener {
                     scenario.onDeath(event);
                 }
                 handlePlayerLost(dead);
+            }
+            if(Config.useRedGuyApi) {
+                if (killer!=null) {
+                    try {
+                        RedEvent.Instance.api.event().kills().add(killer.getName(), 1);
+                    } catch (IOException | ApiError e) {
+                        RedEvent.Instance.getLogger().warning("Cant add kill: "+e.getMessage());
+                    }
+                }
             }
         }
     }

@@ -17,9 +17,9 @@ public class Messages {
     public static void Load() {
         configuration = new YamlConfiguration();
         try {
-            configuration.load(new File(RedEvent.INSTANCE.getDataFolder(),"messages.yml"));
+            configuration.load(new File(RedEvent.Instance.getDataFolder(),"messages.yml"));
         } catch (IOException | InvalidConfigurationException e) {
-            RedEvent.INSTANCE.getLogger().warning("Error while loading messages");
+            RedEvent.Instance.getLogger().warning("Error while loading messages");
         }
         configuration.options().copyDefaults(true);
         playerJoin = configuration.getStringList("chat.private.join");
@@ -30,9 +30,9 @@ public class Messages {
         configuration.set("chat.private.join",playerJoin);
         configuration.set("text.gamestate.wait",gameStateWait);
         try {
-            configuration.save(new File(RedEvent.INSTANCE.getDataFolder(),"messages.yml"));
+            configuration.save(new File(RedEvent.Instance.getDataFolder(),"messages.yml"));
         } catch (IOException e) {
-            RedEvent.INSTANCE.getLogger().warning("Error while saving config");
+            RedEvent.Instance.getLogger().warning("Error while saving config");
         }
     }
 

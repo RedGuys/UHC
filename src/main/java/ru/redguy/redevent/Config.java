@@ -6,7 +6,6 @@ import ru.redguy.redevent.utils.discord.Hook;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,7 +15,7 @@ public class Config {
     public static String token;
 
     public static void Load() {
-        FileConfiguration configuration = RedEvent.INSTANCE.getConfig();
+        FileConfiguration configuration = RedEvent.Instance.getConfig();
         hooks = new ArrayList<>();
         for (Map<?, ?> map : configuration.getMapList("discord.hooks")) {
             hooks.add(new Hook((Map<String, Object>) map));
@@ -26,7 +25,7 @@ public class Config {
     }
 
     public static void Save() {
-        FileConfiguration configuration = RedEvent.INSTANCE.getConfig();
+        FileConfiguration configuration = RedEvent.Instance.getConfig();
         List<Map<String, Object>> list = new ArrayList<>();
         for (Hook hook : hooks) {
             list.add(hook.toMap());
@@ -35,9 +34,9 @@ public class Config {
         configuration.set("redguy.useapi",useRedGuyApi);
         configuration.set("redguy.token",token);
         try {
-            configuration.save(new File(RedEvent.INSTANCE.getDataFolder(),"config.yml"));
+            configuration.save(new File(RedEvent.Instance.getDataFolder(),"config.yml"));
         } catch (IOException e) {
-            RedEvent.INSTANCE.getLogger().warning("Error while saving config");
+            RedEvent.Instance.getLogger().warning("Error while saving config");
         }
     }
 }

@@ -51,8 +51,8 @@ public class WeakestDie implements Event {
     @Override
     public void registerTimers() {
         BukkitScheduler scheduler = Bukkit.getScheduler();
-        tasks.add(scheduler.scheduleSyncRepeatingTask(RedEvent.INSTANCE, new RunnablePresets.Timer("смерти слабейшего",60,this),0,1200));
-        tasks.add(scheduler.scheduleSyncRepeatingTask(RedEvent.INSTANCE, new Killer(),1200,1200));
+        tasks.add(scheduler.scheduleSyncRepeatingTask(RedEvent.Instance, new RunnablePresets.Timer("смерти слабейшего",60,this),0,1200));
+        tasks.add(scheduler.scheduleSyncRepeatingTask(RedEvent.Instance, new Killer(),1200,1200));
     }
 
     @Override

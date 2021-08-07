@@ -6,11 +6,9 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
-import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitScheduler;
 import ru.redguy.redevent.RedEvent;
 import ru.redguy.redevent.utils.ChatUtils;
@@ -52,8 +50,8 @@ public class PositionSwapEvent implements Event {
     @Override
     public void registerTimers() {
         BukkitScheduler scheduler = Bukkit.getScheduler();
-        tasks.add(scheduler.scheduleSyncRepeatingTask(RedEvent.INSTANCE, new RunnablePresets.Timer("смены позиций",270,this),600,6000));
-        tasks.add(scheduler.scheduleSyncRepeatingTask(RedEvent.INSTANCE, new PositionSwap(),6000,6000));
+        tasks.add(scheduler.scheduleSyncRepeatingTask(RedEvent.Instance, new RunnablePresets.Timer("смены позиций",270,this),600,6000));
+        tasks.add(scheduler.scheduleSyncRepeatingTask(RedEvent.Instance, new PositionSwap(),6000,6000));
     }
 
     @Override

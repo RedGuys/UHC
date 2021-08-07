@@ -51,8 +51,8 @@ public class DragonEscape implements Event {
     @Override
     public void registerTimers() {
         BukkitScheduler scheduler = Bukkit.getScheduler();
-        tasks.add(scheduler.scheduleSyncRepeatingTask(RedEvent.INSTANCE, new RunnablePresets.Timer("спавна дракона",600,this),0,12000));
-        tasks.add(scheduler.scheduleSyncRepeatingTask(RedEvent.INSTANCE, new DragonSpawner(),12000,12000));
+        tasks.add(scheduler.scheduleSyncRepeatingTask(RedEvent.Instance, new RunnablePresets.Timer("спавна дракона",600,this),0,12000));
+        tasks.add(scheduler.scheduleSyncRepeatingTask(RedEvent.Instance, new DragonSpawner(),12000,12000));
     }
 
     @Override
