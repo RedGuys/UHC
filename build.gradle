@@ -52,6 +52,6 @@ jar {
 }
 
 task copytorun(type: Copy) {
-    from file("$buildDir/libs/redevent-1.0.jar")
+    from file("$buildDir/libs/reduhc-1.0.jar")
     into file("$projectDir/run/plugins/")
 }
