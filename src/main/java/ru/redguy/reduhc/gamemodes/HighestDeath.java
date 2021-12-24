@@ -1,4 +1,4 @@
-package ru.redguy.reduhc.events;
+package ru.redguy.reduhc.gamemodes;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -13,28 +13,28 @@ import ru.redguy.reduhc.RedUHC;
 import ru.redguy.reduhc.utils.ChatUtils;
 import ru.redguy.reduhc.utils.PlayersUtils;
 import ru.redguy.reduhc.utils.RunnablePresets;
-import ru.redguy.reduhc.utils.WorldsUtils;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
-public class DoggyTime implements Event {
+public class HighestDeath implements Event {
 
     List<Integer> tasks = new ArrayList<>();
 
     @Override
     public String getEventName() {
-        return "Собачьи бои";
+        return "Высотная смерть";
     }
 
     @Override
     public String getEventShortDescription() {
-        return "Будет спавнить прирученных собак";
+        return "Будет каджую минуту убивать самого высокого игрока";
     }
 
     @Override
     public String getEventFullDescription() {
-        return "Каждую минуту у игрока будет спавнится прирученная собака";
+        return "Каждую минуту игрок находящийся на большей высоте, умирает";
     }
 
     @Override
@@ -50,8 +50,8 @@ public class DoggyTime implements Event {
     @Override
     public void registerTimers() {
         BukkitScheduler scheduler = Bukkit.getScheduler();
-        tasks.add(scheduler.scheduleSyncRepeatingTask(RedUHC.Instance, new RunnablePresets.Timer("спавна собаки",60,this),0,1200));
-        tasks.add(scheduler.scheduleSyncRepeatingTask(RedUHC.Instance, new Worker(),1200,1200));
+        tasks.add(scheduler.scheduleSyncRepeatingTask(RedUHC.Instance, new RunnablePresets.Timer("смерти игрока",60,this),0,1200));
+        tasks.add(scheduler.scheduleSyncRepeatingTask(RedUHC.Instance, new Killer(),1200,1200));
     }
 
     @Override
@@ -97,12 +97,14 @@ public class DoggyTime implements Event {
 
     }
 
-    static class Worker implements Runnable {
-
+    static class Killer implements Runnable {
         @Override
         public void run() {
-            ChatUtils.sendToAll("Спавн Собачек!");
-            PlayersUtils.forAllAlivePlayers(WorldsUtils::spawnDog);
+            List<Player> players = PlayersUtils.getAllPlayers();
+            players.sort(Comparator.comparingDouble(o -> o.getLocation().getY()));
+            Player killed = players.get(players.size()-1);
+            killed.damage(killed.getHealth()+1);
+            ChatUtils.sendToAll(killed.getName()+" был убит! y="+killed.getLocation().getY());
         }
     }
 }

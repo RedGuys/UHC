@@ -1,40 +1,42 @@
-package ru.redguy.reduhc.events;
+package ru.redguy.reduhc.gamemodes;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.scheduler.BukkitScheduler;
 import ru.redguy.reduhc.RedUHC;
 import ru.redguy.reduhc.utils.ChatUtils;
 import ru.redguy.reduhc.utils.RunnablePresets;
+import ru.redguy.reduhc.utils.WhiteLists;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
-public class InventorySwapEvent implements Event {
+public class RandomBlockSpawnEvent implements Event {
 
     List<Integer> tasks = new ArrayList<>();
 
     @Override
     public String getEventName() {
-        return "Обмен инвентарями";
+        return "Спавн случайного блока";
     }
 
     @Override
     public String getEventShortDescription() {
-        return "Заставит вас обменятся вещами с другими игроками.";
+        return "Будет спавнить случайный блок под вами каждую минуту";
     }
 
     @Override
     public String getEventFullDescription() {
-        return "Каждые 5 минут игроки будут менятся своими инвентарями.";
+        return "Каждую минуту под вами будет спавниться случайный блок.";
     }
 
     @Override
@@ -50,8 +52,8 @@ public class InventorySwapEvent implements Event {
     @Override
     public void registerTimers() {
         BukkitScheduler scheduler = Bukkit.getScheduler();
-        tasks.add(scheduler.scheduleSyncRepeatingTask(RedUHC.Instance, new RunnablePresets.Timer("смены инвентарей",270,this),600,6000));
-        tasks.add(scheduler.scheduleSyncRepeatingTask(RedUHC.Instance, new InventorySwap(),6000,6000));
+        tasks.add(scheduler.scheduleSyncRepeatingTask(RedUHC.Instance, new RunnablePresets.Timer("спавна блока",60,this),0,1200));
+        tasks.add(scheduler.scheduleSyncRepeatingTask(RedUHC.Instance, new BlockSpawner(),1200,1200));
     }
 
     @Override
@@ -78,12 +80,12 @@ public class InventorySwapEvent implements Event {
     }
 
     @Override
-    public void onDamage(EntityDamageEvent event, Player player) {
+    public void onDisconnect(PlayerQuitEvent event) {
 
     }
 
     @Override
-    public void onDisconnect(PlayerQuitEvent event) {
+    public void onDamage(EntityDamageEvent event, Player player) {
 
     }
 
@@ -97,21 +99,16 @@ public class InventorySwapEvent implements Event {
 
     }
 
-    private static class InventorySwap implements Runnable {
+    class BlockSpawner implements Runnable {
 
         @Override
         public void run() {
-            List<Player> players = RedUHC.getGame().getPlayers();
-            List<ItemStack[]> inventories = new ArrayList<>();
-            for (Player player : players) {
-                inventories.add(player.getInventory().getContents());
-                player.getInventory().clear();
+            for (Player player : RedUHC.getGame().getPlayers()) {
+                Material blockType = WhiteLists.blockSpawn[new Random().nextInt(WhiteLists.blockSpawn.length)];
+                Location location = player.getLocation();
+                location.subtract(0,1,0).getBlock().setType(blockType);
             }
-            Collections.shuffle(inventories);
-            for (int i = 0; i < players.size(); i++) {
-                players.get(i).getInventory().setContents(inventories.get(i));
-            }
-            ChatUtils.sendToAll("Обмен инвентарями!");
+            ChatUtils.sendToAll("Спавн блоков!");
         }
     }
 }

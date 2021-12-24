@@ -1,4 +1,4 @@
-package ru.redguy.reduhc.events;
+package ru.redguy.reduhc.gamemodes;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
@@ -11,30 +11,31 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitScheduler;
 import ru.redguy.reduhc.RedUHC;
 import ru.redguy.reduhc.utils.ChatUtils;
-import ru.redguy.reduhc.utils.PlayersUtils;
 import ru.redguy.reduhc.utils.RunnablePresets;
+import ru.redguy.reduhc.utils.TeleportUtils;
+import ru.redguy.reduhc.utils.WorldsUtils;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
+import java.util.Objects;
 
-public class HighestDeath implements Event {
+public class DragonEscape implements Event {
 
     List<Integer> tasks = new ArrayList<>();
 
     @Override
     public String getEventName() {
-        return "Высотная смерть";
+        return "Драконий рай";
     }
 
     @Override
     public String getEventShortDescription() {
-        return "Будет каджую минуту убивать самого высокого игрока";
+        return "Будет спавнить дракона на спавне каждые 10 минут";
     }
 
     @Override
     public String getEventFullDescription() {
-        return "Каждую минуту игрок находящийся на большей высоте, умирает";
+        return "Каждые 10 минут на спавне будет спавнится дракон";
     }
 
     @Override
@@ -50,8 +51,8 @@ public class HighestDeath implements Event {
     @Override
     public void registerTimers() {
         BukkitScheduler scheduler = Bukkit.getScheduler();
-        tasks.add(scheduler.scheduleSyncRepeatingTask(RedUHC.Instance, new RunnablePresets.Timer("смерти игрока",60,this),0,1200));
-        tasks.add(scheduler.scheduleSyncRepeatingTask(RedUHC.Instance, new Killer(),1200,1200));
+        tasks.add(scheduler.scheduleSyncRepeatingTask(RedUHC.Instance, new RunnablePresets.Timer("спавна дракона",600,this),0,12000));
+        tasks.add(scheduler.scheduleSyncRepeatingTask(RedUHC.Instance, new DragonSpawner(),12000,12000));
     }
 
     @Override
@@ -97,14 +98,12 @@ public class HighestDeath implements Event {
 
     }
 
-    static class Killer implements Runnable {
+    static class DragonSpawner implements Runnable {
+
         @Override
         public void run() {
-            List<Player> players = PlayersUtils.getAllPlayers();
-            players.sort(Comparator.comparingDouble(o -> o.getLocation().getY()));
-            Player killed = players.get(players.size()-1);
-            killed.damage(killed.getHealth()+1);
-            ChatUtils.sendToAll(killed.getName()+" был убит! y="+killed.getLocation().getY());
+            ChatUtils.sendToAll("Спавн дракона!");
+            WorldsUtils.spawnDragon(Objects.requireNonNull(TeleportUtils.getSafeLocation(0, 0)));
         }
     }
 }

@@ -14,10 +14,9 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
-import ru.redguy.reduhc.events.Event;
+import ru.redguy.reduhc.gamemodes.Event;
 import ru.redguy.reduhc.utils.*;
 
-import java.io.IOException;
 import java.util.*;
 
 public class Game implements Listener {

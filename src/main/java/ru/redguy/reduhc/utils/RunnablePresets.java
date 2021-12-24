@@ -1,6 +1,6 @@
 package ru.redguy.reduhc.utils;
 
-import ru.redguy.reduhc.events.Event;
+import ru.redguy.reduhc.gamemodes.Event;
 
 public class RunnablePresets {
     public static class PvpOn implements Runnable {

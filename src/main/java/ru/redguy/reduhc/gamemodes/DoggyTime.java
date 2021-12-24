@@ -1,8 +1,7 @@
-package ru.redguy.reduhc.events;
+package ru.redguy.reduhc.gamemodes;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
-import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -12,29 +11,30 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.scheduler.BukkitScheduler;
 import ru.redguy.reduhc.RedUHC;
 import ru.redguy.reduhc.utils.ChatUtils;
+import ru.redguy.reduhc.utils.PlayersUtils;
 import ru.redguy.reduhc.utils.RunnablePresets;
+import ru.redguy.reduhc.utils.WorldsUtils;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-public class PositionSwapEvent implements Event {
+public class DoggyTime implements Event {
 
     List<Integer> tasks = new ArrayList<>();
 
     @Override
     public String getEventName() {
-        return "Смена позиций";
+        return "Собачьи бои";
     }
 
     @Override
     public String getEventShortDescription() {
-        return "Заставит вас поменяться местами с другим игроком";
+        return "Будет спавнить прирученных собак";
     }
 
     @Override
     public String getEventFullDescription() {
-        return "Каждые 5 минут игроки будут менятся позициями";
+        return "Каждую минуту у игрока будет спавнится прирученная собака";
     }
 
     @Override
@@ -50,8 +50,8 @@ public class PositionSwapEvent implements Event {
     @Override
     public void registerTimers() {
         BukkitScheduler scheduler = Bukkit.getScheduler();
-        tasks.add(scheduler.scheduleSyncRepeatingTask(RedUHC.Instance, new RunnablePresets.Timer("смены позиций",270,this),600,6000));
-        tasks.add(scheduler.scheduleSyncRepeatingTask(RedUHC.Instance, new PositionSwap(),6000,6000));
+        tasks.add(scheduler.scheduleSyncRepeatingTask(RedUHC.Instance, new RunnablePresets.Timer("спавна собаки",60,this),0,1200));
+        tasks.add(scheduler.scheduleSyncRepeatingTask(RedUHC.Instance, new Worker(),1200,1200));
     }
 
     @Override
@@ -78,12 +78,12 @@ public class PositionSwapEvent implements Event {
     }
 
     @Override
-    public void onDamage(EntityDamageEvent event, Player player) {
+    public void onDisconnect(PlayerQuitEvent event) {
 
     }
 
     @Override
-    public void onDisconnect(PlayerQuitEvent event) {
+    public void onDamage(EntityDamageEvent event, Player player) {
 
     }
 
@@ -97,20 +97,12 @@ public class PositionSwapEvent implements Event {
 
     }
 
-    private static class PositionSwap implements Runnable {
+    static class Worker implements Runnable {
 
         @Override
         public void run() {
-            List<Player> players = RedUHC.getGame().getPlayers();
-            List<Location> positions = new ArrayList<>();
-            for (Player player : players) {
-                positions.add(player.getLocation());
-            }
-            Collections.shuffle(positions);
-            for (int i = 0; i < players.size(); i++) {
-                players.get(i).teleport(positions.get(i));
-            }
-            ChatUtils.sendToAll("Обмен позициями!");
+            ChatUtils.sendToAll("Спавн Собачек!");
+            PlayersUtils.forAllAlivePlayers(WorldsUtils::spawnDog);
         }
     }
 }

@@ -1,4 +1,4 @@
-package ru.redguy.reduhc.events;
+package ru.redguy.reduhc.gamemodes;
 
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -8,30 +8,22 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import ru.redguy.reduhc.RedUHC;
-import ru.redguy.reduhc.utils.WhiteLists;
+import org.bukkit.inventory.ItemStack;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
-
-public class WalkRoadEvent implements Event {
-
-    Map<Player, Material> blocksMap = new HashMap<>();
-
+public class FurnaceWar implements Event {
     @Override
     public String getEventName() {
-        return "Ходячие дороги";
+        return "Война против печей";
     }
 
     @Override
     public String getEventShortDescription() {
-        return "Будет спавнить под вами блоки пока вы ходите с палкой в руках.";
+        return "Добытые руды выпадают блоками";
     }
 
     @Override
     public String getEventFullDescription() {
-        return "Пока вы держите в руках палку, под вами будут спавниться блоки.";
+        return "В данном ивенте, вам не нужны печки так как руды будут плавится сами.";
     }
 
     @Override
@@ -41,11 +33,7 @@ public class WalkRoadEvent implements Event {
 
     @Override
     public void Init() {
-        for (Player alivePlayer : RedUHC.getGame().getPlayers()) {
-            Material block = WhiteLists.blockSpawn[new Random().nextInt(WhiteLists.blockSpawn.length)];
-            blocksMap.put(alivePlayer,block);
-            alivePlayer.sendMessage("Твой блок " + block.name() + "!");
-        }
+
     }
 
     @Override
@@ -85,15 +73,20 @@ public class WalkRoadEvent implements Event {
 
     @Override
     public void onMoved(PlayerMoveEvent event) {
-        Player player = event.getPlayer();;
-        if(player.getInventory().getItemInMainHand().getType() == Material.STICK ||
-                player.getInventory().getItemInOffHand().getType() == Material.STICK) {
-            player.getLocation().subtract(0,1,0).getBlock().setType(blocksMap.get(player));
-        }
+
     }
 
     @Override
     public void onBlockBreak(BlockBreakEvent event) {
-
+        Material blockType = event.getBlock().getType();
+        if (blockType == Material.IRON_ORE) {
+            event.setCancelled(true);
+            event.getBlock().setType(Material.AIR);
+            event.getPlayer().getInventory().addItem(new ItemStack(Material.IRON_BLOCK));
+        } else if(blockType == Material.GOLD_ORE) {
+            event.setCancelled(true);
+            event.getBlock().setType(Material.AIR);
+            event.getPlayer().getInventory().addItem(new ItemStack(Material.GOLD_BLOCK));
+        }
     }
 }

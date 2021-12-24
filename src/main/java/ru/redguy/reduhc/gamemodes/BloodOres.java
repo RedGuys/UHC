@@ -1,4 +1,4 @@
-package ru.redguy.reduhc.events;
+package ru.redguy.reduhc.gamemodes;
 
 import org.bukkit.GameMode;
 import org.bukkit.Material;
@@ -8,22 +8,22 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.ItemStack;
+import ru.redguy.reduhc.utils.PlayersUtils;
 
-public class FurnaceWar implements Event {
+public class BloodOres implements Event {
     @Override
     public String getEventName() {
-        return "Война против печей";
+        return "Кровавыые руды";
     }
 
     @Override
     public String getEventShortDescription() {
-        return "Добытые руды выпадают блоками";
+        return "Вы будете получать урон при добыче руд.";
     }
 
     @Override
     public String getEventFullDescription() {
-        return "В данном ивенте, вам не нужны печки так как руды будут плавится сами.";
+        return "В данном сценарии, игроки будут получать урон при добыче руд.";
     }
 
     @Override
@@ -79,14 +79,20 @@ public class FurnaceWar implements Event {
     @Override
     public void onBlockBreak(BlockBreakEvent event) {
         Material blockType = event.getBlock().getType();
-        if (blockType == Material.IRON_ORE) {
-            event.setCancelled(true);
-            event.getBlock().setType(Material.AIR);
-            event.getPlayer().getInventory().addItem(new ItemStack(Material.IRON_BLOCK));
+        if (blockType == Material.COAL_ORE) {
+            PlayersUtils.damagePlayer(event.getPlayer(),1.0);
+        } else if(blockType == Material.IRON_ORE) {
+            PlayersUtils.damagePlayer(event.getPlayer(),2.0);
+        } else if(blockType == Material.LAPIS_ORE) {
+            PlayersUtils.damagePlayer(event.getPlayer(),3.0);
         } else if(blockType == Material.GOLD_ORE) {
-            event.setCancelled(true);
-            event.getBlock().setType(Material.AIR);
-            event.getPlayer().getInventory().addItem(new ItemStack(Material.GOLD_BLOCK));
+            PlayersUtils.damagePlayer(event.getPlayer(),4.0);
+        } else if(blockType == Material.REDSTONE_ORE) {
+            PlayersUtils.damagePlayer(event.getPlayer(),5.0);
+        } else if(blockType == Material.DIAMOND_ORE) {
+            PlayersUtils.damagePlayer(event.getPlayer(),6.0);
+        } else if(blockType == Material.EMERALD_ORE) {
+            PlayersUtils.damagePlayer(event.getPlayer(),7.0);
         }
     }
 }

@@ -1,30 +1,29 @@
-package ru.redguy.reduhc.events;
+package ru.redguy.reduhc.gamemodes;
 
 import org.bukkit.GameMode;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
-import ru.redguy.reduhc.utils.PlayersUtils;
+import org.bukkit.inventory.ItemStack;
 
-public class SuperHeros implements Event {
+public class HardOres implements Event {
     @Override
     public String getEventName() {
-        return "Супер герои";
+        return "Прочные руды";
     }
 
     @Override
     public String getEventShortDescription() {
-        return "Выдаст всем игрокам сильные эффекты";
+        return "После каждой добытой руды ваша кирка будет ломаться";
     }
 
     @Override
     public String getEventFullDescription() {
-        return "При начале игры выдаст сильные эффекты";
+        return "Ломая руды, вы будете ломать кирки";
     }
 
     @Override
@@ -34,11 +33,7 @@ public class SuperHeros implements Event {
 
     @Override
     public void Init() {
-        PlayersUtils.forAllAlivePlayers((player -> {
-            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED,999999,25));
-            player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP,999999,25));
-            player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING,999999,25));
-        }));
+
     }
 
     @Override
@@ -83,6 +78,10 @@ public class SuperHeros implements Event {
 
     @Override
     public void onBlockBreak(BlockBreakEvent event) {
-
+        Material blockType = event.getBlock().getType();
+        if (blockType == Material.COAL_ORE || blockType == Material.IRON_ORE || blockType == Material.LAPIS_ORE || blockType == Material.GOLD_ORE || blockType == Material.REDSTONE_ORE || blockType == Material.DIAMOND_ORE || blockType == Material.EMERALD_ORE) {
+            event.getPlayer().getInventory().setItemInMainHand(new ItemStack(Material.AIR));
+            event.getPlayer().getInventory().addItem(new ItemStack(blockType));
+        }
     }
 }

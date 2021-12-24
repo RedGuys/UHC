@@ -1,4 +1,4 @@
-package ru.redguy.reduhc.events;
+package ru.redguy.reduhc.gamemodes;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;

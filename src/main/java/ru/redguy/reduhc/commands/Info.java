@@ -3,7 +3,7 @@ package ru.redguy.reduhc.commands;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import ru.redguy.reduhc.RedUHC;
-import ru.redguy.reduhc.events.Event;
+import ru.redguy.reduhc.gamemodes.Event;
 
 public class Info implements SubCommand {
     @Override

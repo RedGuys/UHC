@@ -1,29 +1,33 @@
-package ru.redguy.reduhc.events;
+package ru.redguy.reduhc.gamemodes;
 
 import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.ItemStack;
+import ru.redguy.reduhc.RedUHC;
+import ru.redguy.reduhc.utils.ChatUtils;
+import ru.redguy.reduhc.utils.PlayersUtils;
 
-public class HardOres implements Event {
+public class HostDamageEvent implements Event {
+
+    Player host;
+
     @Override
     public String getEventName() {
-        return "Прочные руды";
+        return "Урон одного";
     }
 
     @Override
     public String getEventShortDescription() {
-        return "После каждой добытой руды ваша кирка будет ломаться";
+        return "Заставит вас получать урон хоста игры.";
     }
 
     @Override
     public String getEventFullDescription() {
-        return "Ломая руды, вы будете ломать кирки";
+        return "В данном сценарии, урон полученый хостом будет повторяться на всех других игроках.";
     }
 
     @Override
@@ -33,7 +37,8 @@ public class HardOres implements Event {
 
     @Override
     public void Init() {
-
+        host = PlayersUtils.getRandomAlivePlayer();
+        ChatUtils.sendToAll("Хостом выбран " + host.getDisplayName() + "!");
     }
 
     @Override
@@ -43,7 +48,7 @@ public class HardOres implements Event {
 
     @Override
     public void stop() {
-
+        host = null;
     }
 
     @Override
@@ -62,12 +67,18 @@ public class HardOres implements Event {
     }
 
     @Override
-    public void onDisconnect(PlayerQuitEvent event) {
-
+    public void onDamage(EntityDamageEvent event, Player player) {
+        if (player.equals(host)) {
+            for (Player alivePlayer : RedUHC.getGame().getPlayers()) {
+                if (!alivePlayer.equals(host)) {
+                    alivePlayer.damage(event.getDamage(),player);
+                }
+            }
+        }
     }
 
     @Override
-    public void onDamage(EntityDamageEvent event, Player player) {
+    public void onDisconnect(PlayerQuitEvent event) {
 
     }
 
@@ -78,10 +89,6 @@ public class HardOres implements Event {
 
     @Override
     public void onBlockBreak(BlockBreakEvent event) {
-        Material blockType = event.getBlock().getType();
-        if (blockType == Material.COAL_ORE || blockType == Material.IRON_ORE || blockType == Material.LAPIS_ORE || blockType == Material.GOLD_ORE || blockType == Material.REDSTONE_ORE || blockType == Material.DIAMOND_ORE || blockType == Material.EMERALD_ORE) {
-            event.getPlayer().getInventory().setItemInMainHand(new ItemStack(Material.AIR));
-            event.getPlayer().getInventory().addItem(new ItemStack(blockType));
-        }
+
     }
 }

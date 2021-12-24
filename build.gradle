@@ -16,6 +16,10 @@ tasks.withType(JavaCompile) {
 }
 
 repositories {
+    maven {
+        name = 'redguy-mine'
+        url = 'https://repo.redguy.ru/repository/minecraft/'
+    }
     mavenCentral()
     maven {
         name = 'spigotmc-repo'
@@ -24,10 +28,6 @@ repositories {
     maven {
         name = 'sonatype'
         url = 'https://oss.sonatype.org/content/groups/public/'
-    }
-    maven {
-        name = 'redguy-mine'
-        url = 'https://repo.redguy.ru/repository/minecraft/'
     }
     maven {
         name = 'redguy'

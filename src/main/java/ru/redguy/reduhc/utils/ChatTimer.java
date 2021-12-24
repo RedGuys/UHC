@@ -2,7 +2,7 @@ package ru.redguy.reduhc.utils;
 
 import org.bukkit.Bukkit;
 import ru.redguy.reduhc.RedUHC;
-import ru.redguy.reduhc.events.Event;
+import ru.redguy.reduhc.gamemodes.Event;
 
 public class ChatTimer {
 

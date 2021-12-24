@@ -1,29 +1,30 @@
-package ru.redguy.reduhc.events;
+package ru.redguy.reduhc.gamemodes;
 
 import org.bukkit.GameMode;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import ru.redguy.reduhc.utils.PlayersUtils;
 
-public class BloodOres implements Event {
+public class SuperHeros implements Event {
     @Override
     public String getEventName() {
-        return "Кровавыые руды";
+        return "Супер герои";
     }
 
     @Override
     public String getEventShortDescription() {
-        return "Вы будете получать урон при добыче руд.";
+        return "Выдаст всем игрокам сильные эффекты";
     }
 
     @Override
     public String getEventFullDescription() {
-        return "В данном сценарии, игроки будут получать урон при добыче руд.";
+        return "При начале игры выдаст сильные эффекты";
     }
 
     @Override
@@ -33,7 +34,11 @@ public class BloodOres implements Event {
 
     @Override
     public void Init() {
-
+        PlayersUtils.forAllAlivePlayers((player -> {
+            player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED,999999,25));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP,999999,25));
+            player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING,999999,25));
+        }));
     }
 
     @Override
@@ -78,21 +83,6 @@ public class BloodOres implements Event {
 
     @Override
     public void onBlockBreak(BlockBreakEvent event) {
-        Material blockType = event.getBlock().getType();
-        if (blockType == Material.COAL_ORE) {
-            PlayersUtils.damagePlayer(event.getPlayer(),1.0);
-        } else if(blockType == Material.IRON_ORE) {
-            PlayersUtils.damagePlayer(event.getPlayer(),2.0);
-        } else if(blockType == Material.LAPIS_ORE) {
-            PlayersUtils.damagePlayer(event.getPlayer(),3.0);
-        } else if(blockType == Material.GOLD_ORE) {
-            PlayersUtils.damagePlayer(event.getPlayer(),4.0);
-        } else if(blockType == Material.REDSTONE_ORE) {
-            PlayersUtils.damagePlayer(event.getPlayer(),5.0);
-        } else if(blockType == Material.DIAMOND_ORE) {
-            PlayersUtils.damagePlayer(event.getPlayer(),6.0);
-        } else if(blockType == Material.EMERALD_ORE) {
-            PlayersUtils.damagePlayer(event.getPlayer(),7.0);
-        }
+
     }
 }

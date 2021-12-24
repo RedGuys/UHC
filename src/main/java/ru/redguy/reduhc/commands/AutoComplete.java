@@ -3,7 +3,7 @@ package ru.redguy.reduhc.commands;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
-import ru.redguy.reduhc.events.Events;
+import ru.redguy.reduhc.gamemodes.Events;
 
 import java.util.ArrayList;
 import java.util.List;

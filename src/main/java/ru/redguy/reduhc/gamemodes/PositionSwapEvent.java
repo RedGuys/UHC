@@ -1,7 +1,8 @@
-package ru.redguy.reduhc.events;
+package ru.redguy.reduhc.gamemodes;
 
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -12,30 +13,28 @@ import org.bukkit.scheduler.BukkitScheduler;
 import ru.redguy.reduhc.RedUHC;
 import ru.redguy.reduhc.utils.ChatUtils;
 import ru.redguy.reduhc.utils.RunnablePresets;
-import ru.redguy.reduhc.utils.TeleportUtils;
-import ru.redguy.reduhc.utils.WorldsUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
-public class DragonEscape implements Event {
+public class PositionSwapEvent implements Event {
 
     List<Integer> tasks = new ArrayList<>();
 
     @Override
     public String getEventName() {
-        return "Драконий рай";
+        return "Смена позиций";
     }
 
     @Override
     public String getEventShortDescription() {
-        return "Будет спавнить дракона на спавне каждые 10 минут";
+        return "Заставит вас поменяться местами с другим игроком";
     }
 
     @Override
     public String getEventFullDescription() {
-        return "Каждые 10 минут на спавне будет спавнится дракон";
+        return "Каждые 5 минут игроки будут менятся позициями";
     }
 
     @Override
@@ -51,8 +50,8 @@ public class DragonEscape implements Event {
     @Override
     public void registerTimers() {
         BukkitScheduler scheduler = Bukkit.getScheduler();
-        tasks.add(scheduler.scheduleSyncRepeatingTask(RedUHC.Instance, new RunnablePresets.Timer("спавна дракона",600,this),0,12000));
-        tasks.add(scheduler.scheduleSyncRepeatingTask(RedUHC.Instance, new DragonSpawner(),12000,12000));
+        tasks.add(scheduler.scheduleSyncRepeatingTask(RedUHC.Instance, new RunnablePresets.Timer("смены позиций",270,this),600,6000));
+        tasks.add(scheduler.scheduleSyncRepeatingTask(RedUHC.Instance, new PositionSwap(),6000,6000));
     }
 
     @Override
@@ -79,12 +78,12 @@ public class DragonEscape implements Event {
     }
 
     @Override
-    public void onDisconnect(PlayerQuitEvent event) {
+    public void onDamage(EntityDamageEvent event, Player player) {
 
     }
 
     @Override
-    public void onDamage(EntityDamageEvent event, Player player) {
+    public void onDisconnect(PlayerQuitEvent event) {
 
     }
 
@@ -98,12 +97,20 @@ public class DragonEscape implements Event {
 
     }
 
-    static class DragonSpawner implements Runnable {
+    private static class PositionSwap implements Runnable {
 
         @Override
         public void run() {
-            ChatUtils.sendToAll("Спавн дракона!");
-            WorldsUtils.spawnDragon(Objects.requireNonNull(TeleportUtils.getSafeLocation(0, 0)));
+            List<Player> players = RedUHC.getGame().getPlayers();
+            List<Location> positions = new ArrayList<>();
+            for (Player player : players) {
+                positions.add(player.getLocation());
+            }
+            Collections.shuffle(positions);
+            for (int i = 0; i < players.size(); i++) {
+                players.get(i).teleport(positions.get(i));
+            }
+            ChatUtils.sendToAll("Обмен позициями!");
         }
     }
 }
