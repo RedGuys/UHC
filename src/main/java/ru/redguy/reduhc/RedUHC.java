@@ -1,6 +1,5 @@
 package ru.redguy.reduhc;
 
-import okhttp3.OkHttpClient;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.redguy.reduhc.commands.CommandsRegister;
@@ -8,19 +7,16 @@ import ru.redguy.reduhc.utils.discord.HooksEvents;
 
 public final class RedUHC extends JavaPlugin {
 
-    public static RedUHC Instance;
-    public Game game;
-    public OkHttpClient okHttpClient;
+    private static RedUHC Instance;
+    private Game game;
 
     @Override
     public void onEnable() {
         Instance = this;
-        getConfig().options().copyDefaults(true);
-        saveDefaultConfig();
         Config.Load();
         Config.Save();
+        Messages.Load();
 
-        okHttpClient = new OkHttpClient();
         CommandsRegister.register();
         Bukkit.getPluginManager().registerEvents(new HooksEvents(),this);
 
@@ -34,6 +30,10 @@ public final class RedUHC extends JavaPlugin {
     }
 
     public static Game getGame() {
-        return Instance.game;
+        return getInstance().game;
+    }
+
+    public static RedUHC getInstance() {
+        return Instance;
     }
 }

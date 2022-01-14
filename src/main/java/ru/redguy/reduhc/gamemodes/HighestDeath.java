@@ -50,8 +50,8 @@ public class HighestDeath implements Event {
     @Override
     public void registerTimers() {
         BukkitScheduler scheduler = Bukkit.getScheduler();
-        tasks.add(scheduler.scheduleSyncRepeatingTask(RedUHC.Instance, new RunnablePresets.Timer("смерти игрока",60,this),0,1200));
-        tasks.add(scheduler.scheduleSyncRepeatingTask(RedUHC.Instance, new Killer(),1200,1200));
+        tasks.add(scheduler.scheduleSyncRepeatingTask(RedUHC.getInstance(), new RunnablePresets.Timer("смерти игрока",60,this),0,1200));
+        tasks.add(scheduler.scheduleSyncRepeatingTask(RedUHC.getInstance(), new Killer(),1200,1200));
     }
 
     @Override

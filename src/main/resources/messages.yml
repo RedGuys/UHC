@@ -1,8 +1,0 @@
-chat:
-  private:
-    join:
-      - Добро пожаловать на UHC!
-      - Сейчас идёт $gamestate$!
-text:
-  gamestate:
-    wait: 'ожидание начала'

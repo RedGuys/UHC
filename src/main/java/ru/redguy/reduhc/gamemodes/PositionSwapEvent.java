@@ -50,8 +50,8 @@ public class PositionSwapEvent implements Event {
     @Override
     public void registerTimers() {
         BukkitScheduler scheduler = Bukkit.getScheduler();
-        tasks.add(scheduler.scheduleSyncRepeatingTask(RedUHC.Instance, new RunnablePresets.Timer("смены позиций",270,this),600,6000));
-        tasks.add(scheduler.scheduleSyncRepeatingTask(RedUHC.Instance, new PositionSwap(),6000,6000));
+        tasks.add(scheduler.scheduleSyncRepeatingTask(RedUHC.getInstance(), new RunnablePresets.Timer("смены позиций",270,this),600,6000));
+        tasks.add(scheduler.scheduleSyncRepeatingTask(RedUHC.getInstance(), new PositionSwap(),6000,6000));
     }
 
     @Override

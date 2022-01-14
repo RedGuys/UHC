@@ -1,6 +1,6 @@
-name: RedEvent
+name: RedUHC
 version: @version@
-main: ru.redguy.redevent.RedEvent
+main: ru.redguy.reduhc.RedUHC
 prefix: RUHC
 load: STARTUP
 authors: [ RedGuy ]

@@ -36,8 +36,6 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.json:json:20210307'
-    compile 'com.squareup.okhttp3:okhttp:4.9.0'
     compileOnly 'org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT'
 }
 

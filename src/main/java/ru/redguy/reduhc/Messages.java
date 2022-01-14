@@ -1,46 +1,35 @@
 package ru.redguy.reduhc;
 
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
+import ru.redguy.reduhc.utils.ConfigFile;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 
 public class Messages {
-    private static FileConfiguration configuration;
-
-    public static List<String> playerJoin;
-    public static String gameStateWait;
+    private static ConfigFile configuration;
 
     public static void Load() {
-        configuration = new YamlConfiguration();
-        try {
-            configuration.load(new File(RedUHC.Instance.getDataFolder(),"messages.yml"));
-        } catch (IOException | InvalidConfigurationException e) {
-            RedUHC.Instance.getLogger().warning("Error while loading messages");
-        }
-        configuration.options().copyDefaults(true);
-        playerJoin = configuration.getStringList("chat.private.join");
-        gameStateWait = configuration.getString("text.gamestate.wait");
+        configuration = new ConfigFile("messages");
+        configuration.def("game.gamestate.wait","ожидание начала");
+        configuration.def("game.gamestate.active","активна");
+        configuration.def("chat.joinText",new String[] {"Добро пожаловать на UHC!","Статус игры: $gamestate$"});
+        Save();
     }
 
     public static void Save() {
-        configuration.set("chat.private.join",playerJoin);
-        configuration.set("text.gamestate.wait",gameStateWait);
-        try {
-            configuration.save(new File(RedUHC.Instance.getDataFolder(),"messages.yml"));
-        } catch (IOException e) {
-            RedUHC.Instance.getLogger().warning("Error while saving config");
-        }
+        configuration.save();
     }
 
     public static String getGameStateStringByState(GameState gameState) {
         switch (gameState) {
             case wait:
-                return gameStateWait;
+                return configuration.getString("game.gamestate.wait");
+            case active:
+                return configuration.getString("game.gamestate.active");
         }
         return "";
+    }
+
+    public static List<String> getJoinText() {
+        return configuration.getStringList("chat.joinText");
     }
 }

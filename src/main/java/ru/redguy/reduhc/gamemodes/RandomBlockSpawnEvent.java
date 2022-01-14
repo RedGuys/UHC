@@ -52,8 +52,8 @@ public class RandomBlockSpawnEvent implements Event {
     @Override
     public void registerTimers() {
         BukkitScheduler scheduler = Bukkit.getScheduler();
-        tasks.add(scheduler.scheduleSyncRepeatingTask(RedUHC.Instance, new RunnablePresets.Timer("спавна блока",60,this),0,1200));
-        tasks.add(scheduler.scheduleSyncRepeatingTask(RedUHC.Instance, new BlockSpawner(),1200,1200));
+        tasks.add(scheduler.scheduleSyncRepeatingTask(RedUHC.getInstance(), new RunnablePresets.Timer("спавна блока",60,this),0,1200));
+        tasks.add(scheduler.scheduleSyncRepeatingTask(RedUHC.getInstance(), new BlockSpawner(),1200,1200));
     }
 
     @Override

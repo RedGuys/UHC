@@ -8,7 +8,7 @@ import java.util.List;
 
 public class TextUtils {
     public static List<String> Join(Player player) {
-        List<String> res = Messages.playerJoin;
+        List<String> res = Messages.getJoinText();
         for (int i = 0; i < res.size(); i++) {
             res.set(i,parsePlaceholders(res.get(i),player));
         }

@@ -41,7 +41,7 @@ public class Game implements Listener {
             scenario.registerTimers();
             scenario.Init();
         }
-        gameState = GameState.game;
+        gameState = GameState.active;
         PlayersUtils.forAllAlivePlayers((player -> player.spigot().respawn()));
         PlayersUtils.teleportAllPlayers(TeleportUtils.getSafeLocation(0,0));
         PlayersUtils.clearAllEffects();
@@ -52,8 +52,8 @@ public class Game implements Listener {
         WorldsUtils.getDefaultWorld().getWorldBorder().setSize(2000);
         borderSize = 2000;
         WorldsUtils.getDefaultWorld().getWorldBorder().setCenter(0,0);
-        borderAnonceTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(RedUHC.Instance,new RunnablePresets.Timer("уменьшения барьера",600,scenarios.get(0)),0,12000);
-        borderTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(RedUHC.Instance, new BorderWorker(),12000,12000);
+        borderAnonceTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(RedUHC.getInstance(),new RunnablePresets.Timer("уменьшения барьера",600,scenarios.get(0)),0,12000);
+        borderTask = Bukkit.getScheduler().scheduleSyncRepeatingTask(RedUHC.getInstance(), new BorderWorker(),12000,12000);
         ChatUtils.sendToAll("Игра началась!");
         ChatUtils.sendToAll("Активные модификаторы: "+scenarioString.substring(0,scenarioString.length()-1));
     }
