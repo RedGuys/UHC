@@ -7,25 +7,25 @@ public class Help implements SubCommand {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(args.length == 0) {
-            sender.sendMessage("/event help [subcommand]");
+            sender.sendMessage("/uhc help [subcommand]");
             return true;
         }
         switch (args[0]) {
             case "help":
-                sender.sendMessage("/event help [subcommand]");
+                sender.sendMessage("/uhc help [subcommand]");
                 break;
             case "add":
-                sender.sendMessage("/event add [EventName]");
+                sender.sendMessage("/uhc add [scenario]");
                 break;
             case "start":
-                sender.sendMessage("/event start");
+                sender.sendMessage("/uhc start");
                 break;
             case "i":
             case "info":
-                sender.sendMessage("/event info");
+                sender.sendMessage("/uhc info");
                 break;
             case "stop":
-                sender.sendMessage("/event stop");
+                sender.sendMessage("/uhc stop");
                 break;
             default:
                 sender.sendMessage("Unknown subcommand!");

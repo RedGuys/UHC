@@ -7,9 +7,6 @@ authors: [ RedGuy ]
 description: RedGuy's UHC plugin
 website: https://redguy.ru
 commands:
-  event:
-    usage: /event [help/start/add/info/stop]
-    aliases:
-      - e
-      - ev
-    description: Events command
+  uhc:
+    usage: /uhc [help/start/add/info/stop]
+    description: UHC command

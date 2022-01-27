@@ -7,8 +7,7 @@ import org.bukkit.command.CommandSender;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class Event implements CommandExecutor {
-
+public class UHC implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(args.length == 0) {
@@ -18,7 +17,7 @@ public class Event implements CommandExecutor {
         String subcommand = a.get(0);
         a.remove(0);
         args = a.toArray(new String[0]);
-        switch (subcommand) {
+        switch (subcommand.toLowerCase()) {
             case "help":
                 return new Help().onCommand(sender,command,label,args);
             case "add":

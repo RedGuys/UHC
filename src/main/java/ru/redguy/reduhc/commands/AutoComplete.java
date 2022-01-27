@@ -12,7 +12,7 @@ public class AutoComplete implements TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        if(command.getName().equalsIgnoreCase("event")) {
+        if(command.getName().equalsIgnoreCase("uhc")) {
             List<String> complete = new ArrayList<>();
             if(args.length == 1) {
                 complete.add("help");

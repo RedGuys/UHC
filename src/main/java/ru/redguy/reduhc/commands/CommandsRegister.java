@@ -5,8 +5,8 @@ import ru.redguy.reduhc.RedUHC;
 
 public class CommandsRegister {
     public static void register() {
-        PluginCommand command = RedUHC.getInstance().getServer().getPluginCommand("event");
-        command.setExecutor(new Event());
+        PluginCommand command = RedUHC.getInstance().getServer().getPluginCommand("uhc");
+        command.setExecutor(new UHC());
         command.setTabCompleter(new AutoComplete());
     }
 }

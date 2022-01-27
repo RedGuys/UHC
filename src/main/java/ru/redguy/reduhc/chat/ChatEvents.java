@@ -10,5 +10,6 @@ public class ChatEvents implements Listener {
     @EventHandler
     public void onJoin(PlayerJoinEvent playerJoinEvent) {
         ChatUtils.sendMessages(playerJoinEvent.getPlayer(), TextUtils.Join(playerJoinEvent.getPlayer()));
+        playerJoinEvent.setJoinMessage("");
     }
 }

@@ -8,8 +8,13 @@ import ru.redguy.reduhc.gamemodes.Event;
 public class Info implements SubCommand {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        for (Event scenario : RedUHC.getGame().getScenarios()) {
-            sender.sendMessage(scenario.getEventName()+": "+scenario.getEventShortDescription());
+        if(RedUHC.getGame().getScenarios().size()>0) {
+            sender.sendMessage("Добавленные сценарии:");
+            for (Event scenario : RedUHC.getGame().getScenarios()) {
+                sender.sendMessage(scenario.getEventName() + ": " + scenario.getEventShortDescription());
+            }
+        } else {
+            sender.sendMessage("Нет активных сценариев");
         }
         return true;
     }

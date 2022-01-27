@@ -2,6 +2,7 @@ package ru.redguy.reduhc;
 
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
+import ru.redguy.reduhc.chat.ChatEvents;
 import ru.redguy.reduhc.commands.CommandsRegister;
 import ru.redguy.reduhc.utils.discord.HooksEvents;
 
@@ -19,6 +20,7 @@ public final class RedUHC extends JavaPlugin {
 
         CommandsRegister.register();
         Bukkit.getPluginManager().registerEvents(new HooksEvents(),this);
+        Bukkit.getPluginManager().registerEvents(new ChatEvents(),this);
 
         game = new Game();
         Bukkit.getPluginManager().registerEvents(game, this);
